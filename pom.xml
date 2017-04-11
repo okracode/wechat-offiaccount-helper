@@ -64,7 +64,18 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<dist>dist</dist>
+		<classes>${dist}/classes</classes>
+	</properties>
 	<build>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<scriptSourceDirectory>scripts</scriptSourceDirectory>
+		<testSourceDirectory>src/test/java</testSourceDirectory>
+		<outputDirectory>${classes}</outputDirectory>
+		<directory>${dist}</directory>
+
 		<finalName>wechat-intfc</finalName>
 		<plugins>
 			<plugin>
@@ -89,6 +100,9 @@
 					<execution>
 						<id>main-class-placement</id>
 						<phase>prepare-package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
 						<configuration>
 							<target>
 								<move todir="${project.build.directory}/${project.artifactId}/">
@@ -98,33 +112,66 @@
 								</move>
 							</target>
 						</configuration>
+					</execution>
+
+					<!-- deleteSource -->
+					<execution>
+						<id>deleteSource</id>
+						<phase>install</phase>
 						<goals>
 							<goal>run</goal>
 						</goals>
+						<configuration>
+							<tasks>
+								<echo message="copy ..." />
+								<copy toDir="${dist}/bin" overwrite="true">
+									<fileset dir="${project.basedir}/scripts" />
+								</copy>
+								<!-- <copy toDir="${dist}/conf" overwrite="true">
+									<fileset dir="${project.basedir}/conf" />
+								</copy> -->
+								<echo message="delete ..." />
+								<delete dir="${dist}/test-classes" />
+								<delete dir="${dist}/generated-sources" />
+								<delete dir="${dist}/maven-archiver" />
+								<delete dir="${dist}/antrun" />
+								<delete dir="${dist}/wechat-intfc" />
+								<delete dir="${classes}" />
+							</tasks>
+						</configuration>
+					</execution>
+
+					<!-- clean -->
+					<execution>
+						<id>clean</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<echo message="make clean ..." />
+								<delete dir="${dist}" />
+							</tasks>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 
+			<!-- copy dependence libs -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>2.5.1</version>
 				<executions>
 					<execution>
-						<id>jetty-classpath</id>
-						<phase>prepare-package</phase>
+						<id>copy</id>
+						<phase>package</phase>
 						<goals>
-							<goal>unpack-dependencies</goal>
+							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<includeGroupIds>org.eclipse.jetty, org.eclipse.jetty.aggregate,
-								javax.servlet,dom4j,httpclient,commons-logging,org.json</includeGroupIds>
-							<includeScope>provided</includeScope>
-							<!-- remove some files in order to decrease size -->
-							<excludes>*, about_files/*, META-INF/*</excludes>
-							<outputDirectory>
-								${project.build.directory}/${project.artifactId}
-							</outputDirectory>
+							<outputDirectory>${dist}/lib</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
