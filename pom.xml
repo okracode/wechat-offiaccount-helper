@@ -33,6 +33,36 @@
 			<version>7.6.13.v20130916</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>httpclient</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.3.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>httpclient</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>4.3</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.0.4</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20090211</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>wechat-intfc</finalName>
@@ -63,7 +93,7 @@
 							<target>
 								<move todir="${project.build.directory}/${project.artifactId}/">
 									<fileset dir="${project.build.directory}/classes/">
-										<include name="ren/ashin/wechat/intfc/MyServer.class" />
+										<include name="ren/ashin/wechat/intfc/**/*.class" />
 									</fileset>
 								</move>
 							</target>
@@ -88,7 +118,7 @@
 						</goals>
 						<configuration>
 							<includeGroupIds>org.eclipse.jetty, org.eclipse.jetty.aggregate,
-								javax.servlet</includeGroupIds>
+								javax.servlet,dom4j,httpclient,commons-logging,org.json</includeGroupIds>
 							<includeScope>provided</includeScope>
 							<!-- remove some files in order to decrease size -->
 							<excludes>*, about_files/*, META-INF/*</excludes>

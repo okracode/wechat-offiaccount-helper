@@ -14,15 +14,15 @@ public class MyServer {
         String warPath = "wechat-intfc.war";
         String webapp = "src/main/webapp";
 
-        Server server = new Server(8080);
+        Server server = new Server(80);
 
         WebAppContext context = new WebAppContext();
 
         // 使用war包打包前，请注释掉一下两行
-        context.setDescriptor(webapp + "/WEB-INF/web.xml");
-        context.setResourceBase(webapp);
+//        context.setDescriptor(webapp + "/WEB-INF/web.xml");
+//        context.setResourceBase(webapp);
         // 使用Eclipse调试时，请把该行注释掉
-        // context.setWar(warPath);
+         context.setWar(warPath);
 
         context.setContextPath("/");
         context.setClassLoader(Thread.currentThread().getContextClassLoader());
