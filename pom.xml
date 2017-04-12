@@ -19,49 +19,46 @@
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
 			<type>jar</type>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jetty.aggregate</groupId>
 			<artifactId>jetty-all</artifactId>
 			<version>7.6.13.v20130916</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-jsp</artifactId>
 			<version>7.6.13.v20130916</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
 			<version>1.6.1</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>httpclient</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.3.1</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>httpclient</groupId>
 			<artifactId>httpcore</artifactId>
 			<version>4.3</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 			<version>1.0.4</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
 			<version>20090211</version>
-			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.13</version>
 		</dependency>
 	</dependencies>
 	<properties>
@@ -75,6 +72,15 @@
 		<testSourceDirectory>src/test/java</testSourceDirectory>
 		<outputDirectory>${classes}</outputDirectory>
 		<directory>${dist}</directory>
+
+		<resources>
+			<resource>
+				<directory>conf</directory>
+				<includes>
+					<include>*.*</include>
+				</includes>
+			</resource>
+		</resources>
 
 		<finalName>wechat-intfc</finalName>
 		<plugins>
@@ -127,9 +133,9 @@
 								<copy toDir="${dist}/bin" overwrite="true">
 									<fileset dir="${project.basedir}/scripts" />
 								</copy>
-								<!-- <copy toDir="${dist}/conf" overwrite="true">
+								<copy toDir="${dist}/conf" overwrite="true">
 									<fileset dir="${project.basedir}/conf" />
-								</copy> -->
+								</copy>
 								<echo message="delete ..." />
 								<delete dir="${dist}/test-classes" />
 								<delete dir="${dist}/generated-sources" />
