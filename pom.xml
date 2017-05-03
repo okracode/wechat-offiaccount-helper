@@ -105,6 +105,7 @@
 							<!-- <addClasspath>true</addClasspath> -->
 						</manifest>
 					</archive>
+					<packagingExcludes>WEB-INF/lib/**/*</packagingExcludes>
 				</configuration>
 			</plugin>
 
