@@ -1,6 +1,9 @@
 package ren.ashin.wechat.intfc.demo.process;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+
+import com.google.common.base.Strings;
 
 import ren.ashin.wechat.intfc.demo.entity.ReceiveXmlEntity;
 
@@ -27,8 +30,15 @@ public class WechatProcess {
         /** 以文本消息为例，调用图灵机器人api接口，获取回复内容 */
         String result = "";
         if ("text".endsWith(xmlEntity.getMsgType())) {
-            result = new TulingApiProcess().getTulingResult(xmlEntity.getContent());
-            // result = "测试成功"
+            // 对文本信息进行加工处理
+            String content = xmlEntity.getContent();
+            String fromUserName = xmlEntity.getFromUserName();
+            if (!Strings.isNullOrEmpty(content)) {
+                result = handleTextMsg(content, fromUserName);
+            } else {
+                LOG.warn("收到了空字符串");
+                result = "收到了无法处理的字符串:" + content;
+            }
         }
 
         /**
@@ -38,6 +48,18 @@ public class WechatProcess {
                 new FormatXmlProcess().formatXmlAnswer(xmlEntity.getFromUserName(),
                         xmlEntity.getToUserName(), result);
 
+        return result;
+    }
+
+    private String handleTextMsg(String content, String fromUserName) {
+        // 首先要判断用户内容是否需要单独处理
+        String[] searchStrs = {"扇贝绑定", "扇贝解绑", "扇贝排行榜"};
+        String result = "";
+        if (StringUtils.startsWithAny(content, searchStrs)) {
+            result = "扇贝测试";
+        } else {
+            result = new TulingApiProcess().getTulingResult(content);
+        }
         return result;
     }
 }

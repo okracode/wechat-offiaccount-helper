@@ -16,7 +16,7 @@ public class MyServer {
         String warPath = "wechat-intfc.war";
         // String webapp = "src/main/webapp";
 
-        Server server = new Server(80);
+        Server server = new Server(8080);
 
         WebAppContext context = new WebAppContext();
 
