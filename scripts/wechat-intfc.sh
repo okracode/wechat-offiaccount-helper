@@ -19,7 +19,7 @@ done
 
 cd `dirname "$PRG"`/..
 
-CMD="java -Xmx512m -Xms384m -XX:PermSize=128M -XX:MaxPermSize=256m -Djava.ext.dirs=lib -cp conf:`ls *.jar` -jar wechat-intfc.war"
+CMD="java -Xmx512m -Xms384m -XX:PermSize=128M -XX:MaxPermSize=256m -Djava.ext.dirs=lib -cp conf:`ls *.war` -jar wechat-intfc.war"
 
 
 case $1 in

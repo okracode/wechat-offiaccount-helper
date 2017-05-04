@@ -1,10 +1,14 @@
 package ren.ashin.wechat.intfc.demo.process;
 
+import java.util.Date;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.google.common.base.Strings;
 
+import ren.ashin.wechat.intfc.MyServer;
+import ren.ashin.wechat.intfc.demo.bean.WechatMsg;
 import ren.ashin.wechat.intfc.demo.entity.ReceiveXmlEntity;
 
 /**
@@ -40,6 +44,8 @@ public class WechatProcess {
                 result = "收到了无法处理的字符串:" + content;
             }
         }
+        saveMsg(xmlEntity,result);
+        
 
         /**
          * 此时，如果用户输入的是“你好”，在经过上面的过程之后，result为“你也好”类似的内容 因为最终回复给微信的也是xml格式的数据，所有需要将其封装为文本类型返回消息
@@ -49,6 +55,34 @@ public class WechatProcess {
                         xmlEntity.getToUserName(), result);
 
         return result;
+    }
+
+    private void saveMsg(ReceiveXmlEntity xmlEntity, String result) {
+        WechatMsg receiveMsg = new WechatMsg();
+        receiveMsg.setToUserName(xmlEntity.getToUserName());
+        receiveMsg.setFromUserName(xmlEntity.getFromUserName());
+        receiveMsg.setCreateTime(new Date(Long.valueOf(xmlEntity.getCreateTime())));
+        receiveMsg.setMsgType(xmlEntity.getMsgType());
+        receiveMsg.setContent(xmlEntity.getContent());
+        receiveMsg.setMsgId(xmlEntity.getMsgId());
+        
+        WechatMsg sendMsg = new WechatMsg();
+        sendMsg.setToUserName(xmlEntity.getFromUserName());
+        sendMsg.setFromUserName(xmlEntity.getToUserName());
+        sendMsg.setCreateTime(new Date());
+        sendMsg.setMsgType("text");
+        sendMsg.setContent(result);
+        sendMsg.setFuncFlag("0");
+        
+        
+        
+        try {
+            MyServer.queue.put(receiveMsg);
+            MyServer.queue.put(sendMsg);
+            LOG.debug("成功放入消息队列一组数据");
+        } catch (Exception e) {
+            LOG.error("无法将数据加入到消息队列中", e);
+        }
     }
 
     private String handleTextMsg(String content, String fromUserName) {
