@@ -61,7 +61,7 @@ public class WechatProcess {
         WechatMsg receiveMsg = new WechatMsg();
         receiveMsg.setToUserName(xmlEntity.getToUserName());
         receiveMsg.setFromUserName(xmlEntity.getFromUserName());
-        receiveMsg.setCreateTime(new Date(Long.valueOf(xmlEntity.getCreateTime())));
+        receiveMsg.setCreateTime(new Date(Long.valueOf(xmlEntity.getCreateTime())*1000));
         receiveMsg.setMsgType(xmlEntity.getMsgType());
         receiveMsg.setContent(xmlEntity.getContent());
         receiveMsg.setMsgId(xmlEntity.getMsgId());
@@ -73,6 +73,7 @@ public class WechatProcess {
         sendMsg.setMsgType("text");
         sendMsg.setContent(result);
         sendMsg.setFuncFlag("0");
+        sendMsg.setMsgId(xmlEntity.getMsgId());
         
         
         
