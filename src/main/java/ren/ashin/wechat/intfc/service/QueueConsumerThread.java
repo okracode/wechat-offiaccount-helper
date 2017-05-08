@@ -1,10 +1,10 @@
-package ren.ashin.wechat.intfc.demo.service;
+package ren.ashin.wechat.intfc.service;
 
 import org.apache.log4j.Logger;
 
-import ren.ashin.wechat.intfc.MyServer;
-import ren.ashin.wechat.intfc.demo.bean.WechatMsg;
-import ren.ashin.wechat.intfc.demo.dao.WechatMsgDao;
+import ren.ashin.wechat.intfc.WeChatServer;
+import ren.ashin.wechat.intfc.bean.recv.RecvTextMessage;
+import ren.ashin.wechat.intfc.dao.TextMessageDao;
 
 /**
  * @ClassName: QueueConsumerThread
@@ -14,14 +14,14 @@ import ren.ashin.wechat.intfc.demo.dao.WechatMsgDao;
  */
 public class QueueConsumerThread extends Thread {
     private static final Logger LOG = Logger.getLogger(QueueConsumerThread.class);
-    private WechatMsgDao wechatMsgDao = MyServer.ctx.getBean(WechatMsgDao.class);
+    private TextMessageDao wechatMsgDao = WeChatServer.ctx.getBean(TextMessageDao.class);
 
     @Override
     public void run() {
         while (true) {
             try {
-                WechatMsg msg = MyServer.queue.take();
-                wechatMsgDao.insertOneMsg(msg);
+                RecvTextMessage msg = WeChatServer.queue.take();
+                wechatMsgDao.insertOneRecvMsg(msg);
                 LOG.debug("向数据库成功插入一组内容");
             } catch (InterruptedException e) {
                 LOG.error("向数据库插入数据出错", e);

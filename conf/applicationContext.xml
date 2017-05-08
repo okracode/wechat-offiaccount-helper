@@ -12,7 +12,7 @@
             http://www.springframework.org/schema/task 
             http://www.springframework.org/schema/task/spring-task-3.0.xsd"
 	default-autowire="byName">
-	<context:component-scan base-package="ren.ashin.wechat.intfc.demo">
+	<context:component-scan base-package="ren.ashin.wechat.intfc">
 	</context:component-scan>
 	<task:annotation-driven />
 
@@ -21,9 +21,9 @@
 		destroy-method="close">
 
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
-		<property name="jdbcUrl" value="jdbc:mysql://45.78.59.214:3306/wechat?useUnicode=true&amp;characterEncoding=utf8" />
+		<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/wechat?useUnicode=true&amp;characterEncoding=utf8" />
 		<property name="user" value="root" />
-		<property name="password" value="root1234" />
+		<property name="password" value="" />
 
 		<!-- these are C3P0 properties -->
 		<property name="acquireIncrement" value="1" />
@@ -37,10 +37,10 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="mapperLocations"
-			value="classpath*:ren/ashin/wechat/intfc/demo/dao/**/*.xml"></property>
+			value="classpath*:ren/ashin/wechat/intfc/dao/**/*.xml"></property>
 	</bean>
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="ren.ashin.wechat.intfc.demo" />
+		<property name="basePackage" value="ren.ashin.wechat.intfc" />
 	</bean>
 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSessionFactory" />

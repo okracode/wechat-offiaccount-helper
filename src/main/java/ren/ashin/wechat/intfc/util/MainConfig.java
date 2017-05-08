@@ -11,4 +11,7 @@ public interface MainConfig extends Mutable {
     
     @Key("jettyPort")
     int jettyPort();
+    
+    @Key("tulingRobot")
+    String tulingRobot();
 }

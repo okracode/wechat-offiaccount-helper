@@ -7,23 +7,23 @@ import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import ren.ashin.wechat.intfc.demo.bean.WechatMsg;
-import ren.ashin.wechat.intfc.demo.service.QueueConsumerThread;
+import ren.ashin.wechat.intfc.bean.recv.RecvTextMessage;
+import ren.ashin.wechat.intfc.service.QueueConsumerThread;
 import ren.ashin.wechat.intfc.util.MainConfig;
 
 /**
- * @ClassName: MyServer
- * @Description: Jetty程序启动入口（调试请从MyServerTest进入）
+ * @ClassName: WeChatServer
+ * @Description: Jetty程序启动入口
  * @author renzx
  * @date Apr 11, 2017
  */
-public class MyServer {
+public class WeChatServer {
     public static ApplicationContext ctx = null;
     public static MainConfig mfg = null;
-    public static LinkedBlockingQueue<WechatMsg> queue = new LinkedBlockingQueue<WechatMsg>();
+    public static LinkedBlockingQueue<RecvTextMessage> queue =
+            new LinkedBlockingQueue<RecvTextMessage>();
 
     public static void main(String[] args) throws Exception {
         PropertyConfigurator.configure("conf/log4j.properties");

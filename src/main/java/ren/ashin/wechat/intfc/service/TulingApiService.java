@@ -1,4 +1,4 @@
-package ren.ashin.wechat.intfc.demo.process;
+package ren.ashin.wechat.intfc.service;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -13,17 +13,19 @@ import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import ren.ashin.wechat.intfc.WeChatServer;
+
 /**
- * @ClassName: TulingApiProcess
+ * @ClassName: TulingApiService
  * @Description: 调用图灵机器人api接口，获取智能回复内容
  * @author renzx
  * @date Apr 12, 2017
  */
-public class TulingApiProcess {
+public class TulingApiService {
     /**
      * @Fields LOG : Log4j 日志类
      */
-    private static final Logger LOG = Logger.getLogger(TulingApiProcess.class);
+    private static final Logger LOG = Logger.getLogger(TulingApiService.class);
 
     /**
      * 调用图灵机器人api接口，获取智能回复内容，解析获取自己所需结果
@@ -31,10 +33,9 @@ public class TulingApiProcess {
      * @param content
      * @return
      */
-    public String getTulingResult(String content) {
-        /** 此处为图灵api接口，参数key需要自己去注册申请，先以11111111代替 */
-        String apiUrl =
-                "http://www.tuling123.com/openapi/api?key=addaecd73624426ca1ebfaca326c55bb&info=";
+    public static String getTulingResult(String content) {
+        /** 此处为图灵api接口，参数key需要自己去注册申请 */
+        String apiUrl = WeChatServer.mfg.tulingRobot();
         String param = "";
         try {
             param = apiUrl + URLEncoder.encode(content, "utf-8");

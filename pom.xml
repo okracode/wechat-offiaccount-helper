@@ -4,7 +4,7 @@
 	<groupId>ren.ashin.wechat</groupId>
 	<artifactId>wechat-intfc</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>wechat-intfc Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
@@ -34,6 +34,11 @@
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
 			<version>1.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4.9</version>
 		</dependency>
 		<dependency>
 			<groupId>httpclient</groupId>
