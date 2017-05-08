@@ -137,7 +137,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>ren.ashin.wechat.intfc.MyServer</mainClass>
+							<mainClass>ren.ashin.wechat.intfc.WeChatServer</mainClass>
 							<!-- <addClasspath>true</addClasspath> -->
 						</manifest>
 					</archive>

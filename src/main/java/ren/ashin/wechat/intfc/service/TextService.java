@@ -211,14 +211,17 @@ public class TextService {
         try {
             WeChatServer.queue.put(recvTextMessage);
             // 组一个假的RecvTextMessage暂时方便插入
-            RecvTextMessage textM1 = new RecvTextMessage();
-            textM1.setMsgId(recvTextMessage.getMsgId());
-            textM1.setToUserName(recvTextMessage.getFromUserName());
-            textM1.setFromUserName(recvTextMessage.getToUserName());
-            textM1.setCreateTime(textMessage.getCreateTime());
-            textM1.setMsgType(MessageUtil.SEND_MESSAGE_TYPE_TEXT);
-            textM1.setContent(textMessage.getContent());
-            WeChatServer.queue.put(textM1);
+            RecvTextMessage sendMsg = new RecvTextMessage();
+            sendMsg.setMsgId(recvTextMessage.getMsgId());
+            sendMsg.setToUserName(recvTextMessage.getFromUserName());
+            sendMsg.setFromUserName(recvTextMessage.getToUserName());
+            sendMsg.setCreateTime(textMessage.getCreateTime());
+            sendMsg.setMsgType(MessageUtil.SEND_MESSAGE_TYPE_TEXT);
+            sendMsg.setContent(textMessage.getContent());
+            if(isHelp(recvContent)){
+                sendMsg.setContent("申请帮助菜单");
+            }
+            WeChatServer.queue.put(sendMsg);
             LOG.debug("成功放入消息队列一组数据");
         } catch (Exception e) {
             LOG.error("无法将数据加入到消息队列中", e);
