@@ -1,12 +1,26 @@
 package ren.ashin.wechat.intfc.service;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.SocketTimeoutException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+
+import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 
 import ren.ashin.wechat.intfc.WeChatServer;
 import ren.ashin.wechat.intfc.bean.recv.RecvTextMessage;
@@ -14,6 +28,7 @@ import ren.ashin.wechat.intfc.bean.send.Article;
 import ren.ashin.wechat.intfc.bean.send.SendNewsMessage;
 import ren.ashin.wechat.intfc.bean.send.SendTextMessage;
 import ren.ashin.wechat.intfc.util.MessageUtil;
+import ren.ashin.wechat.intfc.util.ParseJson;
 
 
 /**
@@ -78,6 +93,33 @@ public class TextService {
             buffer.append("更多精彩内容" + emoji(0x1F47F)
                     + "请访问<a href=\"http://www.ashin.ren\">阿信的博客</a>");
             textMessage.setContent(buffer.toString());
+            respMessage = MessageUtil.textMessageToXml(textMessage);
+        }
+        // 判断是否请求天气预报
+        else if (StringUtils.endsWith(recvContent, "天气")) {
+            String cityName = "南京";
+            if (!"天气".equals(recvContent)) {
+                cityName = StringUtils.substringBefore(recvContent, "天气");
+            }
+            // 根据城市名称获取城市编码
+            String cityCode = ParseJson.cityCodeMap.get(cityName);
+            textMessage.setContent("无法取得当期城市天气");
+            if (!Strings.isNullOrEmpty(cityCode)) {
+                // 测试获取实时天气2(包含天气，温度范围)
+                Map<String, Object> map2 = Maps.newHashMap();
+                try {
+                    map2 = getTodayWeather(cityCode);
+                } catch (NullPointerException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                textMessage.setContent("城市:" + map2.get("city") + "\t" + "低温:" + map2.get("temp1")
+                        + "\t" + "高温:" + map2.get("temp2") + "\t" + "天气:" + map2.get("weather")
+                        + "\t" + "发布时间:" + map2.get("ptime"));
+            }
             respMessage = MessageUtil.textMessageToXml(textMessage);
         }
 
@@ -218,7 +260,7 @@ public class TextService {
             sendMsg.setCreateTime(textMessage.getCreateTime());
             sendMsg.setMsgType(MessageUtil.SEND_MESSAGE_TYPE_TEXT);
             sendMsg.setContent(textMessage.getContent());
-            if(isHelp(recvContent)){
+            if (isHelp(recvContent)) {
                 sendMsg.setContent("申请帮助菜单");
             }
             WeChatServer.queue.put(sendMsg);
@@ -271,5 +313,47 @@ public class TextService {
      */
     public static String emoji(int hexEmoji) {
         return String.valueOf(Character.toChars(hexEmoji));
+    }
+
+    /**
+     * 
+     * 获取实时天气2<br>
+     * 方 法 名： getTodayWeather <br>
+     * 
+     * @param Cityid 城市编码
+     */
+    public static Map<String, Object> getTodayWeather(String Cityid) throws IOException,
+            NullPointerException {
+        // 连接中央气象台的API
+        URL url = new URL("http://www.weather.com.cn/data/cityinfo/" + Cityid + ".html");
+        URLConnection connectionData = url.openConnection();
+        connectionData.setConnectTimeout(1000);
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            BufferedReader br =
+                    new BufferedReader(new InputStreamReader(connectionData.getInputStream(),
+                            "UTF-8"));
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+            while ((line = br.readLine()) != null)
+                sb.append(line);
+            String datas = sb.toString();
+            System.out.println(datas);
+            JSONObject jsonData = JSONObject.parseObject(datas);
+            JSONObject info = jsonData.getJSONObject("weatherinfo");
+            map.put("city", info.getString("city").toString());// 城市
+            map.put("temp1", info.getString("temp1").toString());// 最高温度
+            map.put("temp2", info.getString("temp2").toString());// 最低温度
+            map.put("weather", info.getString("weather").toString());// 天气
+            map.put("ptime", info.getString("ptime").toString());// 发布时间
+
+        } catch (SocketTimeoutException e) {
+            LOG.error("连接超时", e);
+        } catch (FileNotFoundException e) {
+            LOG.error("加载文件出错", e);
+        }
+
+        return map;
+
     }
 }

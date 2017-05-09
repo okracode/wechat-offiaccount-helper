@@ -12,6 +12,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 import ren.ashin.wechat.intfc.bean.recv.RecvTextMessage;
 import ren.ashin.wechat.intfc.service.QueueConsumerThread;
 import ren.ashin.wechat.intfc.util.MainConfig;
+import ren.ashin.wechat.intfc.util.ParseJson;
 
 /**
  * @ClassName: WeChatServer
@@ -35,6 +36,8 @@ public class WeChatServer {
         // 启动数据库数据插入线程
         QueueConsumerThread mcs = new QueueConsumerThread();
         mcs.start();
+        // 读取城市编码文件
+        ParseJson.parseJsonFile();
 
         String warPath = "wechat-intfc.war";
         String webapp = "src/main/webapp";
