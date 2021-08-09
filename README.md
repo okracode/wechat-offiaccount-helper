@@ -13,9 +13,33 @@
         * 右键类 ren.ashin.wechat.intfc.WeChatServer 运行(或Debug)
         * 访问localhost:8080，看到页面显示Hello World表示本地运行成功
     * 服务器运行
-        * 打包：mvn clean package -Dmaven.test.skip=true -U
-        * 拷贝target文件夹到服务器
-        * 运行./wechat-intfc.sh
+        * 普通方式
+            * 打包：mvn clean package -Dmaven.test.skip=true -U
+            * 拷贝target文件夹到服务器
+            * 运行./wechat-intfc.sh
+        * docker中运行
+            * 打包：mvn clean package -Dmaven.test.skip=true -U
+            * docker build -t nuptaxin/wechat-intfc .
+            * 定义wechat-intfc.yaml
+                ```yaml
+                 apiVersion: apps/v1
+                 kind: ReplicaSet
+                 metadata:
+                   name: wechat-intfc
+                 spec:
+                   replicas: 1
+                   selector:
+                     matchLabels:
+                       app: wechat-intfc
+                   template:
+                     metadata:
+                       labels:
+                         app: wechat-intfc
+                     spec:
+                       containers:
+                       - name: wechat-intfc
+                         image: nuptaxin/wechat-intfc
+                ```
 2. 日志
     * 生成的日志在logs目录
 3. 订阅号服务器配置

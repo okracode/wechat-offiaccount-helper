@@ -182,7 +182,7 @@
 					<!-- deleteSource -->
 					<execution>
 						<id>deleteSource</id>
-						<phase>install</phase>
+						<phase>package</phase>
 						<goals>
 							<goal>run</goal>
 						</goals>
