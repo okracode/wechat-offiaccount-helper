@@ -14,7 +14,8 @@ Date: 2017-05-04 15:23:17
 */
 
 SET FOREIGN_KEY_CHECKS=0;
-
+CREATE DATABASE IF NOT EXISTS `wechat`;
+USE `wechat`;
 -- ----------------------------
 -- Table structure for wechat_msg
 -- ----------------------------

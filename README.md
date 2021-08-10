@@ -4,6 +4,8 @@
 1. 部署
     * 本地调试
         * 本地启动程序
+            * 导入脚本：scripts/sql/init.sql
+            * 修改数据库连接：applicationContext.xml jdbcUrl
             * 配置ren.ashin.wechat.intfc.util.SignUtil类中的token值
             * 右键类 ren.ashin.wechat.intfc.WeChatServer 运行(或Debug)
             * 访问localhost:8080，看到页面显示Hello World表示本地运行成功
@@ -18,6 +20,8 @@
             * 获取临时子域名：your url is: https://wise-penguin-80.loca.lt
     * 服务器运行
         * 普通方式
+            * 导入脚本：scripts/sql/init.sql
+            * 修改数据库连接：applicationContext.xml jdbcUrl
             * 打包：mvn clean package -Dmaven.test.skip=true -U
             * 拷贝target文件夹到服务器
             * 运行./wechat-intfc.sh

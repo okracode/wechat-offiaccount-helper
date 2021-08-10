@@ -16,7 +16,7 @@
 	</context:component-scan>
 	<task:annotation-driven />
 
-	<!-- 易司拓的数据库连接 -->
+	<!-- 数据库连接 -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
 
