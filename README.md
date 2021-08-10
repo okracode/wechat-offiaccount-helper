@@ -26,6 +26,8 @@
             * 拷贝target文件夹到服务器
             * 运行./wechat-intfc.sh
         * docker中运行
+            * 导入脚本：scripts/sql/init.sql
+            * 修改数据库连接：applicationContext.xml jdbcUrl
             * 打包：mvn clean package -Dmaven.test.skip=true -U
             * docker build -t nuptaxin/wechat-intfc:v1.0.0 .
             * 定义wechat-intfc.yaml
@@ -48,6 +50,7 @@
                        - name: wechat-intfc
                          image: nuptaxin/wechat-intfc:v1.0.0
                 ```
+            * 运行kubectl create -f wechat-intfc.yaml
 2. 日志
     * 生成的日志在logs目录
 3. 订阅号服务器配置
