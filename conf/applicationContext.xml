@@ -12,7 +12,7 @@
             http://www.springframework.org/schema/task 
             http://www.springframework.org/schema/task/spring-task-3.0.xsd"
 	default-autowire="byName">
-	<context:component-scan base-package="ren.ashin.wechat.intfc">
+	<context:component-scan base-package="com.okracode.wx.subscription">
 	</context:component-scan>
 	<task:annotation-driven />
 
@@ -37,10 +37,10 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="mapperLocations"
-			value="classpath*:ren/ashin/wechat/intfc/dao/**/*.xml"></property>
+			value="classpath*:com/okracode/wx/subscription/web/dao/**/*.xml"></property>
 	</bean>
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="ren.ashin.wechat.intfc" />
+		<property name="basePackage" value="com.okracode.wx.subscription" />
 	</bean>
 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSessionFactory" />

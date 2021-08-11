@@ -8,7 +8,7 @@
             * 修改数据库连接：applicationContext.xml jdbcUrl
             * 修改启动类型：config.properties jettyMode = eclipse
             * 配置ren.ashin.wechat.intfc.util.SignUtil类中的token值
-            * 右键类 ren.ashin.wechat.intfc.WeChatServer 运行(或Debug)
+            * 右键类 com.okracode.wx.subscription.web.WeChatServer 运行(或Debug)
             * 访问localhost:8080，看到页面显示Hello World表示本地运行成功
         * 使用Ngrok做本地远程域名映射[目前微信已经封了此域名]
             * 下载安装[Ngrok](https://ngrok.com/download)
@@ -25,8 +25,9 @@
             * 修改数据库连接：applicationContext.xml jdbcUrl
             * 修改启动类型：config.properties jettyMode = war
             * 打包：mvn clean package -Dmaven.test.skip=true -U
-            * 拷贝target文件夹到服务器
-            * 运行./wechat-intfc.sh
+            * 拷贝wx-subscription-web/dist文件夹到服务器
+            * chmod a+x wx-subscription-web/dist/bin/wechat-intfc.sh
+            * 运行wx-subscription-web/dist/bin/wechat-intfc.sh start
         * docker中运行
             * 导入脚本：scripts/sql/init.sql
             * 修改数据库连接：applicationContext.xml jdbcUrl
