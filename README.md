@@ -25,8 +25,9 @@
             * 修改数据库连接：applicationContext.xml jdbcUrl
             * 修改启动类型：config.properties jettyMode = war
             * 打包：mvn clean package -Dmaven.test.skip=true -U
-            * 拷贝target文件夹到服务器
-            * 运行./wechat-intfc.sh
+            * 拷贝dist文件夹到服务器
+            * chmod a+x dist/bin/wechat-intfc.sh
+            * 运行dist/bin/wechat-intfc.sh start
         * docker中运行
             * 导入脚本：scripts/sql/init.sql
             * 修改数据库连接：applicationContext.xml jdbcUrl
