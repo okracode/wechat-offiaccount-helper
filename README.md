@@ -12,7 +12,7 @@
         * 本地启动程序
             * 导入脚本：scripts/sql/init.sql
             * 修改数据库连接：application.properties spring.datasource.xxx的值
-            * 配置com.okracode.wx.subscription.web.util.SignUtil类中的token值
+            * 配置application.properties中的token值
             * 右键类 com.okracode.wx.subscription.web.WxSubscriptionWebApplication 运行(或Debug)
             * 访问localhost:8080，看到页面表示本地运行成功
         * 使用Ngrok做本地远程域名映射[目前微信已经封了此域名]
@@ -29,8 +29,8 @@
             * 导入脚本：scripts/sql/init.sql
             * 修改数据库连接：application.properties spring.datasource.xxx的值
             * 打包：mvn clean package -Dmaven.test.skip=true -U
-            * 拷贝wx-subscription-web/target/wx-subscription-web-1.0.0.jar到服务器
-            * 运行java -jar wx-subscription-web/target/wx-subscription-web-1.0.0.jar
+            * 拷贝wx-subscription-web/target/wx-subscription.jar到服务器
+            * 运行java -jar wx-subscription-web/target/wx-subscription.jar
         * docker中运行
             * 导入脚本：scripts/sql/init.sql
             * 修改数据库连接：application.properties spring.datasource.xxx的值
