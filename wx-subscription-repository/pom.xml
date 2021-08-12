@@ -9,15 +9,15 @@
     <version>1.0.0</version>
   </parent>
   <groupId>com.okracode.wx</groupId>
-  <artifactId>wx-subscription-service</artifactId>
+  <artifactId>wx-subscription-repository</artifactId>
   <version>1.0.0</version>
-  <name>wx-subscription-service</name>
-  <description>Service 4 wx subscription</description>
+  <name>wx-subscription-repository</name>
+  <description>repo</description>
 
   <dependencies>
     <dependency>
       <groupId>com.okracode.wx</groupId>
-      <artifactId>wx-subscription-repository</artifactId>
+      <artifactId>wx-subscription-common</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>

@@ -1,8 +1,8 @@
 package com.okracode.wx.subscription.web.controller;
 
-import com.okracode.wx.subscription.web.service.CoreService;
-import com.okracode.wx.subscription.web.util.MainConfig;
-import com.okracode.wx.subscription.web.util.SignUtil;
+import com.okracode.wx.subscription.service.CoreService;
+import com.okracode.wx.subscription.common.conf.CommonConfig;
+import com.okracode.wx.subscription.common.SignUtil;
 import java.io.IOException;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +24,7 @@ public class CoreController {
     @Resource
     private CoreService coreService;
     @Resource
-    private MainConfig mainConfig;
+    private CommonConfig commonConfig;
 
     /**
      * 确认请求来自微信服务器
@@ -43,7 +43,7 @@ public class CoreController {
         LOG.debug("signature:" + signature + "\ntimestamp:" + timestamp + "\nnonce:" + nonce
                 + "\nechostr:" + echostr);
         // 通过检验signature对请求进行校验，若校验成功则原样返回echostr，表示接入成功，否则接入失败
-        if (SignUtil.checkSignature(mainConfig.getToken(), signature, timestamp, nonce)) {
+        if (SignUtil.checkSignature(commonConfig.getToken(), signature, timestamp, nonce)) {
             return echostr;
         }
         return null;

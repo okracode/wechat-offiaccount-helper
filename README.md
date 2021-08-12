@@ -28,7 +28,7 @@
         * 普通方式
             * 导入脚本：scripts/sql/init.sql
             * 修改数据库连接：application.properties spring.datasource.xxx的值
-            * 打包：mvn clean package spring-boot:repackage -Dmaven.test.skip=true -U
+            * 打包：mvn clean package -Dmaven.test.skip=true -U
             * 拷贝wx-subscription-web/target/wx-subscription-web-1.0.0.jar到服务器
             * 运行java -jar wx-subscription-web/target/wx-subscription-web-1.0.0.jar
         * docker中运行

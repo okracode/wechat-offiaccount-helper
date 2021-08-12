@@ -1,6 +1,6 @@
 package com.okracode.wx.subscription.web;
 
-import com.okracode.wx.subscription.web.util.ParseJson;
+import com.okracode.wx.subscription.service.util.ParseJson;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
@@ -14,7 +14,7 @@ import org.springframework.core.io.Resource;
 
 @SpringBootApplication
 @ComponentScan("com.okracode.wx.subscription")
-@MapperScan("com.okracode.wx.subscription.web.dao")
+@MapperScan("com.okracode.wx.subscription.repository.dao")
 public class WxSubscriptionWebApplication {
 
     public static void main(String[] args) {

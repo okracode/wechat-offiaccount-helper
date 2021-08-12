@@ -14,8 +14,36 @@
 	<url>http://wechat.okrahome.com</url>
 
 	<modules>
+		<module>wx-subscription-common</module>
+		<module>wx-subscription-repository</module>
+		<module>wx-subscription-service</module>
 		<module>wx-subscription-web</module>
 	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.okracode.wx</groupId>
+				<artifactId>wx-subscription-common</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.okracode.wx</groupId>
+				<artifactId>wx-subscription-repository</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.okracode.wx</groupId>
+				<artifactId>wx-subscription-service</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.okracode.wx</groupId>
+				<artifactId>wx-subscription-web</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<dependencies>
 		<dependency>
