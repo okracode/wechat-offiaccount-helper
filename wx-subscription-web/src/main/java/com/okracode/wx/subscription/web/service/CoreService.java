@@ -3,12 +3,14 @@ package com.okracode.wx.subscription.web.service;
 import java.util.Date;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 
 import com.okracode.wx.subscription.web.bean.recv.RecvTextMessage;
 import com.okracode.wx.subscription.web.util.MessageUtil;
+import org.springframework.stereotype.Service;
 
 /**
  * @ClassName: CoreService
@@ -16,16 +18,18 @@ import com.okracode.wx.subscription.web.util.MessageUtil;
  * @author renzx
  * @date May 8, 2017
  */
+@Service
 public class CoreService {
     private static final Logger LOG = Logger.getLogger(CoreService.class);
-
+    @Resource
+    private TextService textService;
     /**
      * 处理微信发来的请求
      * 
      * @param request
      * @return
      */
-    public static String processRequest(HttpServletRequest request) {
+    public String processRequest(HttpServletRequest request) {
         String respMessage = null;
         try {
             // 默认返回的文本消息内容
@@ -60,7 +64,7 @@ public class CoreService {
                 recvTextMessage.setToUserName(toUserName);
 
                 LOG.debug("接收到的文本消息内容：" + content);
-                respMessage = TextService.processMsg(recvTextMessage);
+                respMessage = textService.processMsg(recvTextMessage);
             }
             // 图片消息
             else if (msgType.equals(MessageUtil.RECV_MESSAGE_TYPE_IMAGE)) {

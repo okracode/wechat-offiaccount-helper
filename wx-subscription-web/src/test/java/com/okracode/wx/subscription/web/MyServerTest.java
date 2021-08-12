@@ -3,6 +3,7 @@ package com.okracode.wx.subscription.web;
 import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
+import org.springframework.util.ResourceUtils;
 
 /**
  * @ClassName: MyServer
@@ -12,7 +13,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
  */
 public class MyServerTest {
     public static void main(String[] args) throws Exception {
-        PropertyConfigurator.configure("conf/log4j.properties");
+        PropertyConfigurator.configure(ResourceUtils.getFile("classpath:log4j.properties").getPath());
         String webapp = "src/main/webapp";
 
         Server server = new Server(80);

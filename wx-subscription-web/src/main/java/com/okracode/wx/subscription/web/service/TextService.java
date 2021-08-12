@@ -1,5 +1,6 @@
 package com.okracode.wx.subscription.web.service;
 
+import com.okracode.wx.subscription.web.util.DataQueue;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.annotation.Resource;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -22,13 +24,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
-import com.okracode.wx.subscription.web.WeChatServer;
 import com.okracode.wx.subscription.web.bean.recv.RecvTextMessage;
 import com.okracode.wx.subscription.web.bean.send.Article;
 import com.okracode.wx.subscription.web.bean.send.SendNewsMessage;
 import com.okracode.wx.subscription.web.bean.send.SendTextMessage;
 import com.okracode.wx.subscription.web.util.MessageUtil;
 import com.okracode.wx.subscription.web.util.ParseJson;
+import org.springframework.stereotype.Service;
 
 
 /**
@@ -37,8 +39,11 @@ import com.okracode.wx.subscription.web.util.ParseJson;
  * @author renzx
  * @date May 8, 2017
  */
+@Service
 public class TextService {
     private static final Logger LOG = Logger.getLogger(TextService.class);
+    @Resource
+    private TulingApiService tulingApiService;
 
     /**
      * 根据消息内容返回对应的消息值
@@ -47,7 +52,7 @@ public class TextService {
      * @param respContent
      * @return
      */
-    public static String processMsg(RecvTextMessage recvTextMessage) {
+    public String processMsg(RecvTextMessage recvTextMessage) {
         String respMessage = null;
         String recvContent = recvTextMessage.getContent();
         // 回复文本消息
@@ -245,13 +250,13 @@ public class TextService {
             respMessage = MessageUtil.newsMessageToXml(newsMessage);
         } else {
             // 如果都不符合使用默认的转换,则直接调用图灵机器人完成
-            String result = TulingApiService.getTulingResult(recvContent);
+            String result = tulingApiService.getTulingResult(recvContent);
             textMessage.setContent(result);
             respMessage = MessageUtil.textMessageToXml(textMessage);
         }
 
         try {
-            WeChatServer.queue.put(recvTextMessage);
+            DataQueue.queue.put(recvTextMessage);
             // 组一个假的RecvTextMessage暂时方便插入
             RecvTextMessage sendMsg = new RecvTextMessage();
             sendMsg.setMsgId(recvTextMessage.getMsgId());
@@ -263,7 +268,7 @@ public class TextService {
             if (isHelp(recvContent)) {
                 sendMsg.setContent("申请帮助菜单");
             }
-            WeChatServer.queue.put(sendMsg);
+            DataQueue.queue.put(sendMsg);
             LOG.debug("成功放入消息队列一组数据");
         } catch (Exception e) {
             LOG.error("无法将数据加入到消息队列中", e);

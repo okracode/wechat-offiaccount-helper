@@ -1,9 +1,11 @@
 package com.okracode.wx.subscription.web.service;
 
+import com.okracode.wx.subscription.web.util.MainConfig;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import javax.annotation.Resource;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
@@ -13,7 +15,7 @@ import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.okracode.wx.subscription.web.WeChatServer;
+import org.springframework.stereotype.Service;
 
 /**
  * @ClassName: TulingApiService
@@ -21,11 +23,15 @@ import com.okracode.wx.subscription.web.WeChatServer;
  * @author renzx
  * @date Apr 12, 2017
  */
+@Service
 public class TulingApiService {
     /**
      * @Fields LOG : Log4j 日志类
      */
     private static final Logger LOG = Logger.getLogger(TulingApiService.class);
+
+    @Resource
+    private MainConfig mainConfig;
 
     /**
      * 调用图灵机器人api接口，获取智能回复内容，解析获取自己所需结果
@@ -33,9 +39,9 @@ public class TulingApiService {
      * @param content
      * @return
      */
-    public static String getTulingResult(String content) {
+    public String getTulingResult(String content) {
         /** 此处为图灵api接口，参数key需要自己去注册申请 */
-        String apiUrl = WeChatServer.mfg.tulingRobot();
+        String apiUrl = mainConfig.getTulingRobot();
         String param = "";
         try {
             param = apiUrl + URLEncoder.encode(content, "utf-8");

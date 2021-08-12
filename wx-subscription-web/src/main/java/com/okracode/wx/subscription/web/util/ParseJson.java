@@ -1,6 +1,7 @@
 package com.okracode.wx.subscription.web.util;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
+import org.springframework.util.ResourceUtils;
 
 /**
  * @ClassName: ParseJson
@@ -22,18 +24,18 @@ public class ParseJson {
     private static final Logger LOG = Logger.getLogger(ParseJson.class);
     public static Map<String, String> cityCodeMap = Maps.newHashMapWithExpectedSize(500);
 
-    public static void parseJsonFile() {
+    public static void parseJsonFile() throws FileNotFoundException {
         String userDir = System.getProperty("user.dir");
-        File jsonFile = FileUtils.getFile(userDir + "/conf/cityCode.json");
+        File jsonFile = ResourceUtils.getFile("classpath:cityCode.json");
         String jsonStr = null;
         if (jsonFile.exists()) {
             try {
                 jsonStr = FileUtils.readFileToString(jsonFile, "UTF-8");
             } catch (IOException e) {
-                LOG.warn("文件读取失败：" + userDir + "/conf/cityCode.json");
+                LOG.warn("文件读取失败：" + userDir + "classpath:cityCode.json");
             }
         } else {
-            LOG.warn("找不到城市编码文件：" + userDir + "/conf/cityCode.json");
+            LOG.warn("找不到城市编码文件：" + userDir + "classpath:cityCode.json");
         }
         // 开始解析文件
         if (jsonStr != null) {

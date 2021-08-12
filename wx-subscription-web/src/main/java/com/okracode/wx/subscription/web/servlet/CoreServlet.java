@@ -3,6 +3,7 @@ package com.okracode.wx.subscription.web.servlet;
 import com.okracode.wx.subscription.web.service.CoreService;
 import com.okracode.wx.subscription.web.util.SignUtil;
 import java.io.IOException;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class CoreServlet {
 
     private static final Logger LOG = Logger.getLogger(CoreServlet.class);
+    @Resource
+    private CoreService coreService;
 
     /**
      * 确认请求来自微信服务器
@@ -50,7 +53,7 @@ public class CoreServlet {
     public String doPost(HttpServletRequest request) throws IOException {
         // 将请求、响应的编码均设置为UTF-8（防止中文乱码）
         request.setCharacterEncoding("UTF-8");
-        return CoreService.processRequest(request);
+        return coreService.processRequest(request);
     }
 
 }

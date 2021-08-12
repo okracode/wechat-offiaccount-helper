@@ -1,17 +1,29 @@
 package com.okracode.wx.subscription.web.util;
 
-import org.aeonbits.owner.Config.Sources;
-import org.aeonbits.owner.Mutable;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
-@Sources({"file:conf/config.properties"})
-public interface MainConfig extends Mutable {
+@Component
+public class MainConfig {
 
-    @Key("jettyMode")
-    String jettyMode();
-    
-    @Key("jettyPort")
-    int jettyPort();
-    
-    @Key("tulingRobot")
-    String tulingRobot();
+    @Value("${jettyMode}")
+    private String jettyMode;
+
+    @Value("${jettyPort}")
+    private int jettyPort;
+
+    @Value("${tulingRobot}")
+    private String tulingRobot;
+
+    public String getJettyMode() {
+        return jettyMode;
+    }
+
+    public int getJettyPort() {
+        return jettyPort;
+    }
+
+    public String getTulingRobot() {
+        return tulingRobot;
+    }
 }

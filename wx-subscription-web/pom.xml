@@ -48,7 +48,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
-        <version>2.3</version>
+        <version>3.3.0</version>
         <configuration>
           <archive>
             <manifest>
@@ -94,9 +94,6 @@
                 <echo message="copy ..." />
                 <copy toDir="${dist}/bin" overwrite="true">
                   <fileset dir="${project.basedir}/scripts" />
-                </copy>
-                <copy toDir="${dist}/conf" overwrite="true">
-                  <fileset dir="${project.basedir}/../conf" />
                 </copy>
                 <echo message="delete ..." />
                 <delete dir="${dist}/test-classes" />
