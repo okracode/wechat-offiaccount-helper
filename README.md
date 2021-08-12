@@ -38,7 +38,7 @@
         * docker中运行
             * 导入脚本：scripts/sql/init.sql
             * 修改数据库连接：application.properties spring.datasource.xxx的值
-            * 打包：mvn clean package spring-boot:repackage -Dmaven.test.skip=true -U
+            * 打包：mvn clean package -Dmaven.test.skip=true -U
             * docker build -t nuptaxin/wx-subscription:v1.0.0 .
             * 定义wx-subscription-rs.yaml
                 ```yaml
