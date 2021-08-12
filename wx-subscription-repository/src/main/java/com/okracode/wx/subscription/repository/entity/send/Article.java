@@ -1,12 +1,13 @@
 package com.okracode.wx.subscription.repository.entity.send;
 
 /**
+ * @author Eric Ren
  * @ClassName: Article
  * @Description: 图文model
- * @author renzx
  * @date May 8, 2017
  */
 public class Article {
+
     // 图文消息名称
     private String Title;
     // 图文消息描述

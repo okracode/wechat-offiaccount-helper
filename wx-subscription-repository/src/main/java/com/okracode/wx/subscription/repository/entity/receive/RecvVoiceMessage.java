@@ -1,12 +1,13 @@
 package com.okracode.wx.subscription.repository.entity.receive;
 
 /**
+ * @author Eric Ren
  * @ClassName: VoiceMessage
  * @Description: 音频消息
- * @author renzx
  * @date May 8, 2017
  */
 public class RecvVoiceMessage extends RecvBaseMessage {
+
     // 媒体ID
     private String MediaId;
     // 语音格式

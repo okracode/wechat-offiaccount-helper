@@ -5,23 +5,23 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 /**
+ * @author Eric Ren
  * @ClassName: SignUtil
  * @Description: 请求校验工具类
- * @author renzx
  * @date May 8, 2017
  */
 public class SignUtil {
 
     /**
      * 验证签名
-     * 
+     *
      * @param signature
      * @param timestamp
      * @param nonce
      * @return
      */
     public static boolean checkSignature(String token, String signature, String timestamp, String nonce) {
-        String[] arr = new String[] {token, timestamp, nonce};
+        String[] arr = new String[]{token, timestamp, nonce};
         // 将token、timestamp、nonce三个参数进行字典序排序
         Arrays.sort(arr);
         StringBuilder content = new StringBuilder();
@@ -45,7 +45,7 @@ public class SignUtil {
 
     /**
      * 将字节数组转换为十六进制字符串
-     * 
+     *
      * @param byteArray
      * @return
      */
@@ -59,7 +59,7 @@ public class SignUtil {
 
     /**
      * 将字节转换为十六进制字符串
-     * 
+     *
      * @param mByte
      * @return
      */

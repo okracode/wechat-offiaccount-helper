@@ -3,12 +3,13 @@ package com.okracode.wx.subscription.repository.entity.send;
 import java.util.Date;
 
 /**
+ * @author Eric Ren
  * @ClassName: BaseMessage
  * @Description: 消息基类（公众帐号 -> 普通用户）
- * @author renzx
  * @date May 8, 2017
  */
 public class SendBaseMessage {
+
     // 接收方帐号（收到的OpenID）
     private String ToUserName;
     // 开发者微信号

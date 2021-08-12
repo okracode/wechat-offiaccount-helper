@@ -1,8 +1,8 @@
 package com.okracode.wx.subscription.web.controller;
 
-import com.okracode.wx.subscription.service.CoreService;
-import com.okracode.wx.subscription.common.conf.CommonConfig;
 import com.okracode.wx.subscription.common.SignUtil;
+import com.okracode.wx.subscription.common.conf.CommonConfig;
+import com.okracode.wx.subscription.service.CoreService;
 import java.io.IOException;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author renzx
+ * @author Eric Ren
  * @ClassName: CoreController
  * @Description: 核心请求处理类
  * @date May 8, 2017

@@ -1,35 +1,32 @@
 package com.okracode.wx.subscription.service.util;
 
-import java.io.InputStream;
-import java.io.Writer;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.dom4j.Document;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
-
 import com.okracode.wx.subscription.repository.entity.send.Article;
 import com.okracode.wx.subscription.repository.entity.send.SendMusicMessage;
 import com.okracode.wx.subscription.repository.entity.send.SendNewsMessage;
 import com.okracode.wx.subscription.repository.entity.send.SendTextMessage;
-
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
+import java.io.InputStream;
+import java.io.Writer;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 
 /**
+ * @author Eric Ren
  * @ClassName: MessageUtil
  * @Description: 消息工具类
- * @author renzx
  * @date May 8, 2017
  */
 public class MessageUtil {
+
     /**
      * 返回消息类型：文本
      */
@@ -92,7 +89,7 @@ public class MessageUtil {
 
     /**
      * 解析微信发来的请求（XML）
-     * 
+     *
      * @param request
      * @return
      * @throws Exception
@@ -113,8 +110,9 @@ public class MessageUtil {
         List<Element> elementList = root.elements();
 
         // 遍历所有子节点
-        for (Element e : elementList)
+        for (Element e : elementList) {
             map.put(e.getName(), e.getText());
+        }
 
         // 释放资源
         inputStream.close();
@@ -125,7 +123,7 @@ public class MessageUtil {
 
     /**
      * 文本消息对象转换成xml
-     * 
+     *
      * @param textMessage 文本消息对象
      * @return xml
      */
@@ -136,7 +134,7 @@ public class MessageUtil {
 
     /**
      * 音乐消息对象转换成xml
-     * 
+     *
      * @param musicMessage 音乐消息对象
      * @return xml
      */
@@ -147,7 +145,7 @@ public class MessageUtil {
 
     /**
      * 图文消息对象转换成xml
-     * 
+     *
      * @param newsMessage 图文消息对象
      * @return xml
      */
@@ -159,7 +157,7 @@ public class MessageUtil {
 
     /**
      * 扩展xstream，使其支持CDATA块
-     * 
+     *
      * @date 2013-05-19
      */
     private static XStream xstream = new XStream(new XppDriver() {

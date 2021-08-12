@@ -1,12 +1,13 @@
 package com.okracode.wx.subscription.repository.entity.send;
 
 /**
+ * @author Eric Ren
  * @ClassName: TextMessage
  * @Description: 文本消息
- * @author renzx
  * @date May 8, 2017
  */
 public class SendTextMessage extends SendBaseMessage {
+
     // 回复的消息内容
     private String Content;
 

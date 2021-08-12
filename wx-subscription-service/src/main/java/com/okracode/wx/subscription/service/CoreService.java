@@ -1,31 +1,30 @@
 package com.okracode.wx.subscription.service;
 
-import java.util.Date;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.log4j.Logger;
-
 import com.okracode.wx.subscription.repository.entity.receive.RecvTextMessage;
 import com.okracode.wx.subscription.service.util.MessageUtil;
+import java.util.Date;
+import java.util.Map;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 /**
+ * @author Eric Ren
  * @ClassName: CoreService
  * @Description: 核心服务类
- * @author renzx
  * @date May 8, 2017
  */
 @Service
 public class CoreService {
+
     private static final Logger LOG = Logger.getLogger(CoreService.class);
     @Resource
     private TextService textService;
+
     /**
      * 处理微信发来的请求
-     * 
+     *
      * @param request
      * @return
      */
@@ -49,7 +48,6 @@ public class CoreService {
             // 消息时间
             String createTimeStr = requestMap.get("CreateTime");
             Date createTime = new Date(Long.valueOf(createTimeStr) * 1000L);
-
 
             // 文本消息
             if (msgType.equals(MessageUtil.RECV_MESSAGE_TYPE_TEXT)) {

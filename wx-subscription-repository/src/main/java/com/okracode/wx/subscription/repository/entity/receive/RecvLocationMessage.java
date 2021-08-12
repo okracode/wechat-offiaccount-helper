@@ -1,12 +1,13 @@
 package com.okracode.wx.subscription.repository.entity.receive;
 
 /**
+ * @author Eric Ren
  * @ClassName: LocationMessage
  * @Description: 地理位置消息
- * @author renzx
  * @date May 8, 2017
  */
 public class RecvLocationMessage extends RecvBaseMessage {
+
     // 地理位置维度
     private String Location_X;
     // 地理位置经度

@@ -1,26 +1,25 @@
 package com.okracode.wx.subscription.service.util;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Map;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
+import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 /**
+ * @author Eric Ren
  * @ClassName: ParseJson
  * @Description: 城市编码文件解析类
- * @author renzx
  * @date May 9, 2017
  */
 public class ParseJson {
+
     private static final Logger LOG = Logger.getLogger(ParseJson.class);
     public static Map<String, String> cityCodeMap = Maps.newHashMapWithExpectedSize(500);
 

@@ -4,7 +4,6 @@ import com.okracode.wx.subscription.common.conf.CommonConfig;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-
 import javax.annotation.Resource;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -14,17 +13,17 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import org.springframework.stereotype.Service;
 
 /**
+ * @author Eric Ren
  * @ClassName: TulingApiService
  * @Description: 调用图灵机器人api接口，获取智能回复内容
- * @author renzx
  * @date Apr 12, 2017
  */
 @Service
 public class TulingApiService {
+
     /**
      * @Fields LOG : Log4j 日志类
      */
@@ -35,7 +34,7 @@ public class TulingApiService {
 
     /**
      * 调用图灵机器人api接口，获取智能回复内容，解析获取自己所需结果
-     * 
+     *
      * @param content
      * @return
      */

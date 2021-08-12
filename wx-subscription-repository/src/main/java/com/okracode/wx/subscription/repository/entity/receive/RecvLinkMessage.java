@@ -1,12 +1,13 @@
 package com.okracode.wx.subscription.repository.entity.receive;
 
 /**
+ * @author Eric Ren
  * @ClassName: LinkMessage
  * @Description: 链接消息
- * @author renzx
  * @date May 8, 2017
  */
 public class RecvLinkMessage extends RecvBaseMessage {
+
     // 消息标题
     private String Title;
     // 消息描述

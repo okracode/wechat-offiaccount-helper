@@ -1,6 +1,6 @@
 package com.okracode.wx.subscription.service;
 
-import com.okracode.wx.subscription.repository.dao.*;
+import com.okracode.wx.subscription.repository.dao.TextMessageDao;
 import com.okracode.wx.subscription.repository.entity.receive.RecvTextMessage;
 import com.okracode.wx.subscription.service.queue.DataQueue;
 import javax.annotation.Resource;
@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 /**
- * @author renzx
+ * @author Eric Ren
  * @ClassName: QueueConsumerThread
  * @Description: TODO
  * @date May 4, 2017

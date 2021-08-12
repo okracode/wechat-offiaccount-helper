@@ -1,12 +1,16 @@
 # 微信订阅号后台
+
 ## 技术栈
+
 * mysql
 * java
 * springboot
 * docker
 * k8s
 * maven
+
 ## 如何运行
+
 1. 部署
     * 本地调试
         * 本地启动程序
@@ -103,7 +107,7 @@
                               number: 80
                 ```
                 * 更新ingress
-                   `kubectl apply -f okra-code-ing.yaml`
+                  `kubectl apply -f okra-code-ing.yaml`
                 * 使用ip或域名/wechat.do访问测试
 2. 日志
     * 生成的日志在logs目录

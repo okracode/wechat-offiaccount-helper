@@ -1,5 +1,12 @@
 package com.okracode.wx.subscription.service;
 
+import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
+import com.okracode.wx.subscription.repository.entity.receive.RecvTextMessage;
+import com.okracode.wx.subscription.repository.entity.send.Article;
+import com.okracode.wx.subscription.repository.entity.send.SendNewsMessage;
+import com.okracode.wx.subscription.repository.entity.send.SendTextMessage;
 import com.okracode.wx.subscription.service.queue.DataQueue;
 import com.okracode.wx.subscription.service.util.MessageUtil;
 import com.okracode.wx.subscription.service.util.ParseJson;
@@ -17,37 +24,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.annotation.Resource;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-
-import com.alibaba.fastjson.JSONObject;
-import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
-
-import com.okracode.wx.subscription.repository.entity.receive.RecvTextMessage;
-import com.okracode.wx.subscription.repository.entity.send.Article;
-import com.okracode.wx.subscription.repository.entity.send.SendNewsMessage;
-import com.okracode.wx.subscription.repository.entity.send.SendTextMessage;
 import org.springframework.stereotype.Service;
 
 
 /**
+ * @author Eric Ren
  * @ClassName: TextService
  * @Description: 文字服务类
- * @author renzx
  * @date May 8, 2017
  */
 @Service
 public class TextService {
+
     private static final Logger LOG = Logger.getLogger(TextService.class);
     @Resource
     private TulingApiService tulingApiService;
 
     /**
      * 根据消息内容返回对应的消息值
-     * 
+     *
      * @param recvTextMessage
      * @param respContent
      * @return
@@ -63,8 +61,6 @@ public class TextService {
         textMessage.setMsgType(MessageUtil.SEND_MESSAGE_TYPE_TEXT);
         textMessage.setFuncFlag(0);
         textMessage.setContent("您发送的是文本消息！");
-
-
 
         // 判断消息内容是否为请求图文回复
         // 创建图文消息
@@ -279,7 +275,7 @@ public class TextService {
 
     /**
      * 判断是否是QQ表情,当前只针对一条消息中存在一个表情时生效
-     * 
+     *
      * @param content
      * @return
      */
@@ -299,7 +295,7 @@ public class TextService {
 
     /**
      * 判断是否是申请帮助菜单
-     * 
+     *
      * @param content
      * @return
      */
@@ -312,7 +308,7 @@ public class TextService {
 
     /**
      * emoji表情转换(hex -> utf-16)
-     * 
+     *
      * @param hexEmoji
      * @return
      */
@@ -321,10 +317,8 @@ public class TextService {
     }
 
     /**
-     * 
-     * 获取实时天气2<br>
-     * 方 法 名： getTodayWeather <br>
-     * 
+     * 获取实时天气2<br> 方 法 名： getTodayWeather <br>
+     *
      * @param Cityid 城市编码
      */
     public static Map<String, Object> getTodayWeather(String Cityid) throws IOException,
@@ -340,8 +334,9 @@ public class TextService {
                             "UTF-8"));
             StringBuilder sb = new StringBuilder();
             String line = null;
-            while ((line = br.readLine()) != null)
+            while ((line = br.readLine()) != null) {
                 sb.append(line);
+            }
             String datas = sb.toString();
             System.out.println(datas);
             JSONObject jsonData = JSONObject.parseObject(datas);

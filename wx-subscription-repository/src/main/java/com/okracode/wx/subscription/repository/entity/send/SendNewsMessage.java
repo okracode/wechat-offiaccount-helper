@@ -3,12 +3,13 @@ package com.okracode.wx.subscription.repository.entity.send;
 import java.util.List;
 
 /**
+ * @author Eric Ren
  * @ClassName: NewsMessage
  * @Description: 图文消息
- * @author renzx
  * @date May 8, 2017
  */
 public class SendNewsMessage extends SendBaseMessage {
+
     // 图文消息个数，限制为10条以内
     private int ArticleCount;
     // 多条图文消息信息，默认第一个item为大图

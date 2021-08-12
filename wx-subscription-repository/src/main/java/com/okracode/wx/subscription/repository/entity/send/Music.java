@@ -1,12 +1,13 @@
 package com.okracode.wx.subscription.repository.entity.send;
 
 /**
+ * @author Eric Ren
  * @ClassName: Music
  * @Description: 音乐model
- * @author renzx
  * @date May 8, 2017
  */
 public class Music {
+
     // 音乐名称
     private String Title;
     // 音乐描述
