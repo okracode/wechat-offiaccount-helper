@@ -1,5 +1,11 @@
 # 微信订阅号后台
 ## 技术栈
+* mysql
+* java
+* springboot
+* docker
+* k8s
+* maven
 ## 如何运行
 1. 部署
     * 本地调试
