@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
 
+import java.util.Properties;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
@@ -12,6 +13,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.util.ResourceUtils;
 
 /**
@@ -24,18 +27,20 @@ public class ParseJson {
     private static final Logger LOG = Logger.getLogger(ParseJson.class);
     public static Map<String, String> cityCodeMap = Maps.newHashMapWithExpectedSize(500);
 
-    public static void parseJsonFile() throws FileNotFoundException {
-        String userDir = System.getProperty("user.dir");
-        File jsonFile = ResourceUtils.getFile("classpath:cityCode.json");
+    public static void parseJsonFile() throws IOException {
+        String userHome = System.getProperty("user.home");
+        Resource pathResource = new ClassPathResource("cityCode.json");
+        File jsonFile = FileUtils.getFile(userHome, "cityCode.json");
+        FileUtils.copyInputStreamToFile(pathResource.getInputStream(), jsonFile);
         String jsonStr = null;
         if (jsonFile.exists()) {
             try {
                 jsonStr = FileUtils.readFileToString(jsonFile, "UTF-8");
             } catch (IOException e) {
-                LOG.warn("文件读取失败：" + userDir + "classpath:cityCode.json");
+                LOG.warn("文件读取失败：" + "classpath:cityCode.json");
             }
         } else {
-            LOG.warn("找不到城市编码文件：" + userDir + "classpath:cityCode.json");
+            LOG.warn("找不到城市编码文件：" + "classpath:cityCode.json");
         }
         // 开始解析文件
         if (jsonStr != null) {

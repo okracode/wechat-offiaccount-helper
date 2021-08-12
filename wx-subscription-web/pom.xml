@@ -4,21 +4,21 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>ren.ashin.wechat</groupId>
-    <artifactId>wechat-intfc</artifactId>
+    <groupId>com.okracode.wx</groupId>
+    <artifactId>wx-subscription</artifactId>
     <version>1.0.0</version>
   </parent>
   <groupId>com.okracode.wx</groupId>
   <artifactId>wx-subscription-web</artifactId>
   <version>1.0.0</version>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
   <name>wx-subscription-web</name>
   <description>wechat subscription entrance</description>
+
   <properties>
     <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <dist>dist</dist>
-    <classes>${dist}/classes</classes>
+    <start-class>com.okracode.wx.subscription.web.WxSubscriptionWebApplication</start-class>
   </properties>
   <dependencies>
     <dependency>
@@ -37,123 +37,5 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
-  <build>
-    <sourceDirectory>src/main/java</sourceDirectory>
-    <scriptSourceDirectory>scripts</scriptSourceDirectory>
-    <testSourceDirectory>src/test/java</testSourceDirectory>
-    <outputDirectory>${classes}</outputDirectory>
-    <directory>${dist}</directory>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>3.3.0</version>
-        <configuration>
-          <archive>
-            <manifest>
-              <mainClass>com.okracode.wx.subscription.web.WeChatServer</mainClass>
-              <!-- <addClasspath>true</addClasspath> -->
-            </manifest>
-          </archive>
-          <packagingExcludes>WEB-INF/lib/**/*</packagingExcludes>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.7</version>
-        <executions>
-          <execution>
-            <id>main-class-placement</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <target>
-                <move todir="${project.build.directory}/${project.artifactId}">
-                  <fileset dir="${project.build.directory}/classes/">
-                    <include name="com/okracode/wx/subscription/**/*.class" />
-                  </fileset>
-                </move>
-              </target>
-            </configuration>
-          </execution>
-
-          <!-- deleteSource -->
-          <execution>
-            <id>deleteSource</id>
-            <phase>package</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <tasks>
-                <echo message="copy ..." />
-                <copy toDir="${dist}/bin" overwrite="true">
-                  <fileset dir="${project.basedir}/scripts" />
-                </copy>
-                <echo message="delete ..." />
-                <delete dir="${dist}/test-classes" />
-                <delete dir="${dist}/generated-sources" />
-                <delete dir="${dist}/maven-archiver" />
-                <delete dir="${dist}/antrun" />
-                <delete dir="${dist}/${project.artifactId}-${project.version}" />
-                <delete dir="${dist}/${project.artifactId}" />
-                <delete dir="${classes}" />
-              </tasks>
-            </configuration>
-          </execution>
-
-          <!-- clean -->
-          <execution>
-            <id>clean</id>
-            <phase>clean</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <tasks>
-                <echo message="make clean ..." />
-                <delete dir="${dist}" />
-              </tasks>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <!-- copy dependence libs -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>2.8</version>
-        <executions>
-          <execution>
-            <id>copy</id>
-            <phase>package</phase>
-            <goals>
-              <goal>copy-dependencies</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${dist}/lib</outputDirectory>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.5.1</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-          <encoding>UTF-8</encoding>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 
 </project>
