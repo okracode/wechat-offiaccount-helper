@@ -22,7 +22,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
  */
 public class WeChatServer {
     public static ApplicationContext ctx = null;
-    public static MainConfig mfg = null;
+    public static MainConfig mfg = ConfigFactory.create(MainConfig.class);
     public static LinkedBlockingQueue<RecvTextMessage> queue =
             new LinkedBlockingQueue<RecvTextMessage>();
 
@@ -35,7 +35,7 @@ public class WeChatServer {
 
         // 启动数据库数据插入线程
         QueueConsumerThread mcs = new QueueConsumerThread();
-        mcs.start();
+        // mcs.start();
         // 读取城市编码文件
         ParseJson.parseJsonFile();
 
