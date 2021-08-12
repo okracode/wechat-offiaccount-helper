@@ -54,20 +54,20 @@
             * 测试访问
                 * 端口映射临时访问（需要开放对应targetPort的防火墙）：kubectl port-forward rs/wx-subscription-rs 8080:8080 --address 0.0.0.0
                 * 访问站点：http://49.\*.\*.155:8080
-            * 定义wechat-intfc-svc.yaml
+            * 定义wx-subscription-svc.yaml
                 ```yaml
                     apiVersion: v1
                     kind: Service
                     metadata:
-                      name: wechat-intfc-svc
+                      name: wx-subscription-svc
                     spec:
                       ports:
                       - port: 80
                         targetPort: 8080
                       selector:
-                        app: wechat-intfc
+                        app: wx-subscription
                 ```
-            * 运行kubectl create -f wechat-intfc-svc.yaml
+            * 运行kubectl create -f wx-subscription-svc.yaml
             * ingress添加url映射
                 ```yaml
                 apiVersion: networking.k8s.io/v1
@@ -92,7 +92,7 @@
                         pathType: Prefix
                         backend:
                           service:
-                            name: wechat-intfc-svc
+                            name: wx-subscription-svc
                             port:
                               number: 80
                 ```
@@ -102,7 +102,7 @@
 2. 日志
     * 生成的日志在logs目录
     * docker中查看日志
-        * kubectl exec -it wechat-intfc-xxx sh
+        * kubectl exec -it wx-subscription-xxx sh
         * cd /dist/logs
         * tail -f wechat-intfc.log
 3. 订阅号服务器配置

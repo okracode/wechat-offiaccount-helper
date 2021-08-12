@@ -49,7 +49,7 @@ public class CoreServlet {
     /**
      * 处理微信服务器发来的消息
      */
-    @PostMapping("/*")
+    @PostMapping("wechat.do")
     public String doPost(HttpServletRequest request) throws IOException {
         // 将请求、响应的编码均设置为UTF-8（防止中文乱码）
         request.setCharacterEncoding("UTF-8");
