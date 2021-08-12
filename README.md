@@ -104,7 +104,7 @@
     * docker中查看日志
         * kubectl exec -it wx-subscription-xxx sh
         * cd /dist/logs
-        * tail -f wechat-intfc.log
+        * tail -f wx-subscription.log
 3. 订阅号服务器配置
     * 进入订阅号后台，找到基本配置目录，点击服务器配置->修改配置
         * URL：填写站点部署的url/wechat.do（本地调试填写临时子域名）
