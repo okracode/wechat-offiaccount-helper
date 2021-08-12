@@ -1,10 +1,12 @@
 package com.okracode.wx.subscription.web.service;
 
+import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 
 import com.okracode.wx.subscription.web.WeChatServer;
 import com.okracode.wx.subscription.web.bean.recv.RecvTextMessage;
 import com.okracode.wx.subscription.web.dao.TextMessageDao;
+import org.springframework.stereotype.Component;
 
 /**
  * @ClassName: QueueConsumerThread
@@ -12,9 +14,12 @@ import com.okracode.wx.subscription.web.dao.TextMessageDao;
  * @author renzx
  * @date May 4, 2017
  */
+@Component
 public class QueueConsumerThread extends Thread {
     private static final Logger LOG = Logger.getLogger(QueueConsumerThread.class);
-    private TextMessageDao wechatMsgDao = WeChatServer.ctx.getBean(TextMessageDao.class);
+    //private TextMessageDao wechatMsgDao = WeChatServer.ctx.getBean(TextMessageDao.class);
+    @Resource(name = "textMessageDao")
+    private TextMessageDao wechatMsgDao;
 
     @Override
     public void run() {
