@@ -11,8 +11,6 @@ import java.util.Arrays;
  * @date May 8, 2017
  */
 public class SignUtil {
-    // 与接口配置信息中的Token要一致
-    private static String token = "weixinCourse";
 
     /**
      * 验证签名
@@ -22,7 +20,7 @@ public class SignUtil {
      * @param nonce
      * @return
      */
-    public static boolean checkSignature(String signature, String timestamp, String nonce) {
+    public static boolean checkSignature(String token, String signature, String timestamp, String nonce) {
         String[] arr = new String[] {token, timestamp, nonce};
         // 将token、timestamp、nonce三个参数进行字典序排序
         Arrays.sort(arr);
@@ -41,8 +39,6 @@ public class SignUtil {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-
-        content = null;
         // 将sha1加密后的字符串可与signature对比，标识该请求来源于微信
         return tmpStr != null ? tmpStr.equals(signature.toUpperCase()) : false;
     }
