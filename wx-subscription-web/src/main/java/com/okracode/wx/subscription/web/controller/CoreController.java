@@ -1,4 +1,4 @@
-package com.okracode.wx.subscription.web.servlet;
+package com.okracode.wx.subscription.web.controller;
 
 import com.okracode.wx.subscription.web.service.CoreService;
 import com.okracode.wx.subscription.web.util.SignUtil;
@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author renzx
- * @ClassName: CoreServlet
+ * @ClassName: CoreController
  * @Description: 核心请求处理类
  * @date May 8, 2017
  */
 @RestController
-public class CoreServlet {
+public class CoreController {
 
-    private static final Logger LOG = Logger.getLogger(CoreServlet.class);
+    private static final Logger LOG = Logger.getLogger(CoreController.class);
     @Resource
     private CoreService coreService;
 
