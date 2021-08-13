@@ -7,6 +7,7 @@ import com.okracode.wx.subscription.repository.entity.receive.RecvTextMessage;
 import com.okracode.wx.subscription.repository.entity.send.Article;
 import com.okracode.wx.subscription.repository.entity.send.SendNewsMessage;
 import com.okracode.wx.subscription.repository.entity.send.SendTextMessage;
+import com.okracode.wx.subscription.service.chatbot.ChatBotApiService;
 import com.okracode.wx.subscription.service.queue.DataQueue;
 import com.okracode.wx.subscription.service.util.MessageUtil;
 import com.okracode.wx.subscription.service.util.ParseJson;
@@ -22,6 +23,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.Resource;
@@ -41,13 +43,12 @@ public class TextService {
 
     private static final Logger LOG = Logger.getLogger(TextService.class);
     @Resource
-    private TulingApiService tulingApiService;
+    private List<ChatBotApiService> chatBotApiServiceList;
 
     /**
      * 根据消息内容返回对应的消息值
      *
      * @param recvTextMessage
-     * @param respContent
      * @return
      */
     public String processMsg(RecvTextMessage recvTextMessage) {
@@ -246,7 +247,17 @@ public class TextService {
             respMessage = MessageUtil.newsMessageToXml(newsMessage);
         } else {
             // 如果都不符合使用默认的转换,则直接调用图灵机器人完成
-            String result = tulingApiService.getTulingResult(recvContent);
+            String result = null;
+            for (ChatBotApiService chatBotApiService : chatBotApiServiceList) {
+                result = chatBotApiService.callOpenApi(recvContent);
+                if(Objects.nonNull(result)) {
+                    break;
+                }
+            }
+            // 所有机器人都无法处理，使用默认话术
+            if(Objects.isNull(result)) {
+                result = "对不起，你说的话真是太高深了……";
+            }
             textMessage.setContent(result);
             respMessage = MessageUtil.textMessageToXml(textMessage);
         }
