@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,9 +16,9 @@ import org.springframework.stereotype.Service;
  * @date May 8, 2017
  */
 @Service
+@Slf4j
 public class CoreService {
 
-    private static final Logger LOG = Logger.getLogger(CoreService.class);
     @Resource
     private TextService textService;
 
@@ -61,7 +61,7 @@ public class CoreService {
                 recvTextMessage.setMsgType(msgType);
                 recvTextMessage.setToUserName(toUserName);
 
-                LOG.debug("接收到的文本消息内容：" + content);
+                log.debug("接收到的文本消息内容：" + content);
                 respMessage = textService.processMsg(recvTextMessage);
             }
             // 图片消息
@@ -98,7 +98,7 @@ public class CoreService {
                 }
             }
 
-            LOG.debug("返回的消息：" + respMessage);
+            log.debug("返回的消息：" + respMessage);
         } catch (Exception e) {
             e.printStackTrace();
         }

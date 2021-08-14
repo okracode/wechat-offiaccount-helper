@@ -4,7 +4,7 @@ import com.okracode.wx.subscription.repository.dao.TextMessageDao;
 import com.okracode.wx.subscription.repository.entity.receive.RecvTextMessage;
 import com.okracode.wx.subscription.service.queue.DataQueue;
 import javax.annotation.Resource;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
  * @date May 4, 2017
  */
 @Component
+@Slf4j
 public class QueueConsumerThread {
 
-    private static final Logger LOG = Logger.getLogger(QueueConsumerThread.class);
     @Resource
     private TextMessageDao textMessageDao;
 
@@ -26,9 +26,9 @@ public class QueueConsumerThread {
                 try {
                     RecvTextMessage msg = DataQueue.queue.take();
                     textMessageDao.insertOneRecvMsg(msg);
-                    LOG.debug("向数据库成功插入一组内容");
+                    log.debug("向数据库成功插入一组内容");
                 } catch (InterruptedException e) {
-                    LOG.error("向数据库插入数据出错", e);
+                    log.error("向数据库插入数据出错", e);
                 }
             }
         }).start();
