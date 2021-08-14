@@ -120,4 +120,10 @@
     * Token：与SignUtil类中的token值一致
     * EncodingAESKey：随机生成
     * 消息加解密方式：明文模式
+## 版本号升级
+* 使用mvn命令进行升级
+    * 升级版本号（会产生backup文件）：mvn versions:set -DnewVersion=1.0.1-SNAPSHOT
+    * 回退升级（提交前可回退）：mvn versions:revert
+    * 提交升级（提交后backup文件删除，无法回退）：mvn versions:commit
+    
                   

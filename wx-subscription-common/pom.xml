@@ -6,11 +6,11 @@
   <parent>
     <groupId>com.okracode.wx</groupId>
     <artifactId>wx-subscription</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
   </parent>
   <groupId>com.okracode.wx</groupId>
   <artifactId>wx-subscription-common</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1-SNAPSHOT</version>
   <name>wx-subscription-common</name>
   <description>common class 4 wx subscription</description>
 
