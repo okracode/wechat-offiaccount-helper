@@ -112,7 +112,7 @@
 * 生成的日志在logs目录
 * docker中查看日志
     * kubectl exec -it wx-subscription-xxx sh
-    * cd /dist/logs
+    * cd /logs
     * tail -f wx-subscription.log
 ## 订阅号配置
 * 进入订阅号后台，找到基本配置目录，点击服务器配置->修改配置
