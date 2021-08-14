@@ -3,6 +3,7 @@ package com.okracode.wx.subscription.service;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.okracode.wx.subscription.repository.entity.receive.RecvTextMessage;
 import com.okracode.wx.subscription.repository.entity.send.Article;
 import com.okracode.wx.subscription.repository.entity.send.SendNewsMessage;
@@ -21,14 +22,15 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.annotation.Resource;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -42,8 +44,14 @@ import org.springframework.stereotype.Service;
 public class TextService {
 
     private static final Logger LOG = Logger.getLogger(TextService.class);
-    @Resource
-    private List<ChatBotApiService> chatBotApiServiceList;
+    private volatile LinkedHashSet<ChatBotApiService> sortedChatBotApi = Sets.newLinkedHashSet();
+
+    @Autowired
+    public TextService(List<ChatBotApiService> chatBotApiServiceList) {
+        if (Objects.nonNull(chatBotApiServiceList)) {
+            sortedChatBotApi.addAll(chatBotApiServiceList);
+        }
+    }
 
     /**
      * 根据消息内容返回对应的消息值
@@ -248,14 +256,18 @@ public class TextService {
         } else {
             // 如果都不符合使用默认的转换,则直接调用图灵机器人完成
             String result = null;
-            for (ChatBotApiService chatBotApiService : chatBotApiServiceList) {
+            LinkedHashSet<ChatBotApiService> tempSortedChatBotApi = Sets.newLinkedHashSet();
+            for (ChatBotApiService chatBotApiService : sortedChatBotApi) {
                 result = chatBotApiService.callOpenApi(recvContent);
-                if(Objects.nonNull(result)) {
+                if (Objects.nonNull(result)) {
+                    tempSortedChatBotApi.add(chatBotApiService);
                     break;
                 }
             }
+            tempSortedChatBotApi.addAll(sortedChatBotApi);
+            sortedChatBotApi = tempSortedChatBotApi;
             // 所有机器人都无法处理，使用默认话术
-            if(Objects.isNull(result)) {
+            if (Objects.isNull(result)) {
                 result = "对不起，你说的话真是太高深了……";
             }
             textMessage.setContent(result);
