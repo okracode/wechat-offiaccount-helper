@@ -258,6 +258,7 @@ public class TextService {
             String result = null;
             LinkedHashSet<ChatBotApiService> tempSortedChatBotApi = Sets.newLinkedHashSet();
             for (ChatBotApiService chatBotApiService : sortedChatBotApi) {
+                LOG.info("调用的机器人名称：" + chatBotApiService.getClass().getSimpleName());
                 result = chatBotApiService.callOpenApi(recvContent);
                 if (Objects.nonNull(result)) {
                     tempSortedChatBotApi.add(chatBotApiService);
