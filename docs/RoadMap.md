@@ -31,6 +31,8 @@
 - [ ] 开启docker在github上的自动打包
 ### v1.1.7 移除fastjson
 - [ ] jackson替换fastjson
+### v1.1.8 耗时打点
+- [ ] 增加接口调用与api调用耗时打点
 
 ## v1.2.x 安全性
 ### v1.2.1 敏感配置中心化
