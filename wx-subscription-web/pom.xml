@@ -8,9 +8,7 @@
     <artifactId>wx-subscription</artifactId>
     <version>1.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>com.okracode.wx</groupId>
   <artifactId>wx-subscription-web</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>wx-subscription-web</name>
   <description>wechat subscription entrance</description>
@@ -28,22 +26,6 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-logging</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-tomcat</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 
