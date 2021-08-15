@@ -29,6 +29,8 @@
 - [ ] README文档增加单测结果
 ### v1.1.6 github的docker一键部署
 - [ ] 开启docker在github上的自动打包
+### v1.1.7 移除fastjson
+- [ ] jackson替换fastjson
 
 ## v1.2.x 安全性
 ### v1.2.1 敏感配置中心化
