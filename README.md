@@ -122,8 +122,11 @@
     * 消息加解密方式：明文模式
 ## 版本号升级
 * 使用mvn命令进行升级
-    * 升级版本号（会产生backup文件）：mvn versions:set -DnewVersion=1.0.1-SNAPSHOT
-    * 回退升级（提交前可回退）：mvn versions:revert
-    * 提交升级（提交后backup文件删除，无法回退）：mvn versions:commit
-    
+    * 升级版本号（会产生backup文件）
+      > mvn versions:set -DgenerateBackupPoms=false -DnewVersion=1.0.1-SNAPSHOT
+* 初始化sql版本升级
+    * 如果是第一次安装使用，导入[init.sql](scripts/sql/init.sql)即可
+    * 如果是从已有版本升级到最新版本，由版本号从小到大依次执行大于当前版本的[vx.x.x.sql](scripts/sql/upgrade)
+* 发布当前版本后，在github上Draft a new release
+* 版本号升级逻辑遵循
                   

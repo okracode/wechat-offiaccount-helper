@@ -10,7 +10,7 @@
   <groupId>com.okracode.wx</groupId>
   <artifactId>wx-subscription</artifactId>
   <packaging>pom</packaging>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.1</version>
   <name>wechat subscription app</name>
   <url>http://wechat.okrahome.com</url>
 
