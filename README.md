@@ -123,7 +123,7 @@
     * 消息加解密方式：明文模式
 ## 版本号升级
 * 使用mvn命令进行升级
-    * 升级版本号（会产生backup文件）
+    * 升级版本号
       > mvn versions:set -DgenerateBackupPoms=false -DnewVersion=1.1.0
 * 初始化sql版本升级
     * 如果是第一次安装使用，导入[init.sql](scripts/sql/init.sql)即可
