@@ -28,8 +28,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,9 +41,9 @@ import org.springframework.stereotype.Service;
  * @date May 8, 2017
  */
 @Service
+@Slf4j
 public class TextService {
 
-    private static final Logger LOG = Logger.getLogger(TextService.class);
     private volatile LinkedHashSet<ChatBotApiService> sortedChatBotApi = Sets.newLinkedHashSet();
 
     @Autowired
@@ -258,7 +258,7 @@ public class TextService {
             String result = null;
             LinkedHashSet<ChatBotApiService> tempSortedChatBotApi = Sets.newLinkedHashSet();
             for (ChatBotApiService chatBotApiService : sortedChatBotApi) {
-                LOG.info("调用的机器人名称：" + chatBotApiService.getClass().getSimpleName());
+                log.info("调用的机器人名称：" + chatBotApiService.getClass().getSimpleName());
                 result = chatBotApiService.callOpenApi(recvContent);
                 if (Objects.nonNull(result)) {
                     tempSortedChatBotApi.add(chatBotApiService);
@@ -289,9 +289,9 @@ public class TextService {
                 sendMsg.setContent("申请帮助菜单");
             }
             DataQueue.queue.put(sendMsg);
-            LOG.debug("成功放入消息队列一组数据");
+            log.debug("成功放入消息队列一组数据");
         } catch (Exception e) {
-            LOG.error("无法将数据加入到消息队列中", e);
+            log.error("无法将数据加入到消息队列中", e);
         }
 
         return respMessage;
@@ -372,9 +372,9 @@ public class TextService {
             map.put("ptime", info.getString("ptime").toString());// 发布时间
 
         } catch (SocketTimeoutException e) {
-            LOG.error("连接超时", e);
+            log.error("连接超时", e);
         } catch (FileNotFoundException e) {
-            LOG.error("加载文件出错", e);
+            log.error("加载文件出错", e);
         }
 
         return map;

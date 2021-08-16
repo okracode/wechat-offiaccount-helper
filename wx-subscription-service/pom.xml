@@ -6,11 +6,9 @@
   <parent>
     <groupId>com.okracode.wx</groupId>
     <artifactId>wx-subscription</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
   </parent>
-  <groupId>com.okracode.wx</groupId>
   <artifactId>wx-subscription-service</artifactId>
-  <version>1.0.0</version>
   <name>wx-subscription-service</name>
   <description>Service 4 wx subscription</description>
 
@@ -18,11 +16,6 @@
     <dependency>
       <groupId>com.okracode.wx</groupId>
       <artifactId>wx-subscription-repository</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 

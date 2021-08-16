@@ -1,5 +1,8 @@
 package com.okracode.wx.subscription.service.chatbot.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.JSONObject;
 import com.okracode.wx.subscription.service.chatbot.ChatBotApiService;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -11,8 +14,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
@@ -57,9 +58,9 @@ public class QingyunkeApiServiceImpl implements ChatBotApiService {
         }
 
         try {
-            JSONObject json = new JSONObject(result);
+            JSONObject json = JSON.parseObject(result);
             // 以code=100000为例，参考图灵机器人api文档
-            if (0 == json.getInt("result")) {
+            if (0 == json.getInteger("result")) {
                 return json.getString("content");
             } else {
                 log.error("无效的返回码,{}", json);

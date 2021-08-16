@@ -6,7 +6,7 @@ import com.okracode.wx.subscription.service.CoreService;
 import java.io.IOException;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,9 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @date May 8, 2017
  */
 @RestController
+@Slf4j
 public class CoreController {
-
-    private static final Logger LOG = Logger.getLogger(CoreController.class);
     @Resource
     private CoreService coreService;
     @Resource
@@ -40,7 +39,7 @@ public class CoreController {
         // 随机字符串
         String echostr = request.getParameter("echostr");
 
-        LOG.debug("signature:" + signature + "\ntimestamp:" + timestamp + "\nnonce:" + nonce
+        log.debug("signature:" + signature + "\ntimestamp:" + timestamp + "\nnonce:" + nonce
                 + "\nechostr:" + echostr);
         // 通过检验signature对请求进行校验，若校验成功则原样返回echostr，表示接入成功，否则接入失败
         if (SignUtil.checkSignature(commonConfig.getToken(), signature, timestamp, nonce)) {
