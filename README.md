@@ -59,7 +59,7 @@
                    - name: wx-subscription
                      image: nuptaxin/wx-subscription:v1.0.1
             ```
-        * 运行kubectl create -f wx-subscription-rs.yaml（如果是修改版本号，使用：kubectl apply -f wx-subscription-rs.yaml）
+        * kubectl apply -f wx-subscription-rs.yaml
         * 查看pod使用的image版本号：kubectl describe po wx-subscription-xxxxx
         * 测试访问
             * 端口映射临时访问（需要开放对应targetPort的防火墙）：kubectl port-forward rs/wx-subscription-rs 8080:8080 --address 0.0.0.0
