@@ -128,8 +128,13 @@
 * 初始化sql版本升级
     * 如果是第一次安装使用，导入[init.sql](scripts/sql/init.sql)即可
     * 如果是从已有版本升级到最新版本，由版本号从小到大依次执行大于当前版本的[vx.x.x.sql](scripts/sql/upgrade)
-* 发布当前版本后，在github上Draft a new release
 * 版本号升级逻辑遵循
     > https://semver.org/lang/zh-CN/
+* 发布当前版本后，在github上Draft a new release
+    * tag名称为当前版本号名称，如1.0.0
+    * 标题为RoadMap中的三级标题
+    * 描述为三级标题下的列表
+* 同步gitee
+    > https://gitee.com/nuptaxin/wx-subscription
 * 修改docker命令与k8s脚本版本号
                   
