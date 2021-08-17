@@ -1,9 +1,11 @@
 package com.okracode.wx.subscription.service;
 
-import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.okracode.wx.subscription.common.JsonUtil;
 import com.okracode.wx.subscription.repository.entity.receive.RecvTextMessage;
 import com.okracode.wx.subscription.repository.entity.send.Article;
 import com.okracode.wx.subscription.repository.entity.send.SendNewsMessage;
@@ -351,7 +353,6 @@ public class TextService {
         URL url = new URL("http://www.weather.com.cn/data/cityinfo/" + Cityid + ".html");
         URLConnection connectionData = url.openConnection();
         connectionData.setConnectTimeout(1000);
-        Map<String, Object> map = new HashMap<String, Object>();
         try {
             BufferedReader br =
                     new BufferedReader(new InputStreamReader(connectionData.getInputStream(),
@@ -363,21 +364,14 @@ public class TextService {
             }
             String datas = sb.toString();
             System.out.println(datas);
-            JSONObject jsonData = JSONObject.parseObject(datas);
-            JSONObject info = jsonData.getJSONObject("weatherinfo");
-            map.put("city", info.getString("city").toString());// 城市
-            map.put("temp1", info.getString("temp1").toString());// 最高温度
-            map.put("temp2", info.getString("temp2").toString());// 最低温度
-            map.put("weather", info.getString("weather").toString());// 天气
-            map.put("ptime", info.getString("ptime").toString());// 发布时间
-
+            JsonNode jsonNode = JsonUtil.getNode(datas);
+            return JsonUtil.convert2Map(jsonNode.findValue("weatherinfo").toString());
         } catch (SocketTimeoutException e) {
             log.error("连接超时", e);
         } catch (FileNotFoundException e) {
             log.error("加载文件出错", e);
         }
-
-        return map;
+        return Maps.newHashMap();
 
     }
 }
