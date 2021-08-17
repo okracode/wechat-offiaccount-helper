@@ -9,6 +9,16 @@
 * k8s
 * maven
 
+## 参考文档
+* wx-tools
+    * [源码](https://github.com/antgan/wx-tools)
+    * [教程](https://www.w3cschool.cn/wxtools/)
+* 微信公众号
+    * [教程](https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html)
+* localtunnel
+    * [客户端源码](https://github.com/localtunnel/localtunnel)
+    * [服务端源码](https://github.com/localtunnel/server)
+
 ## 如何部署
 
 1. 本地调试
