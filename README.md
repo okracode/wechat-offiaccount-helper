@@ -35,6 +35,7 @@
         * 运行：./ngrok http 8080
         * 获取临时子域名：http://1c7bb669c550.ngrok.io -> http://localhost:8080
     * 使用localtunnel做本地远程域名映射[替代Ngrok，如果被封需要自己安装localtunnel的server]
+        * 安装nodejs
         * npx localtunnel --port 8080
         * 获取临时子域名：your url is: https://wise-penguin-80.loca.lt
 2. 服务器运行
