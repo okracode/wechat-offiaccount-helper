@@ -25,7 +25,7 @@
     * 本地启动程序
         * 导入脚本：scripts/sql/init.sql
         * 修改数据库连接：application.properties spring.datasource.xxx的值
-        * 配置application.properties中的token值
+        * 配置wx.properties中的wx.token值
         * 右键类 com.okracode.wx.subscription.web.WxSubscriptionWebApplication 运行(或Debug)
         * 访问localhost:8080，看到页面表示本地运行成功
     * 使用Ngrok做本地远程域名映射[目前微信已经封了此域名]
@@ -49,7 +49,7 @@
         * 导入脚本：scripts/sql/init.sql
         * 修改数据库连接：application.properties spring.datasource.xxx的值
         * 打包：mvn clean package -Dmaven.test.skip=true -U
-        * docker build -t nuptaxin/wx-subscription:v1.0.1 .
+        * docker build -t nuptaxin/wx-subscription:v1.1.0 .
         * 定义wx-subscription-rs.yaml
             ```yaml
              apiVersion: apps/v1
@@ -68,7 +68,7 @@
                  spec:
                    containers:
                    - name: wx-subscription
-                     image: nuptaxin/wx-subscription:v1.0.1
+                     image: nuptaxin/wx-subscription:v1.1.0
             ```
         * kubectl apply -f wx-subscription-rs.yaml
         * 查看pod使用的image版本号：kubectl describe po wx-subscription-xxxxx
