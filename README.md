@@ -123,7 +123,7 @@
 ## 日志查看
 * 生成的日志在logs目录
 * docker中查看日志
-    * kubectl exec -it wx-subscription-xxx sh
+    * kubectl exec -it wx-subscription-rs-xxx sh
     * cd /logs
     * tail -f wx-subscription.log
 ## 订阅号配置
