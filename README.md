@@ -142,7 +142,7 @@
 * 版本号升级逻辑遵循
     > https://semver.org/lang/zh-CN/
 * 发布当前版本后，在github上Draft a new release
-    * tag名称为当前版本号名称，如1.0.0
+    * tag名称为当前版本号名称，如v1.0.0
     * 标题为RoadMap中的三级标题
     * 描述为三级标题下的列表
 * 同步gitee
