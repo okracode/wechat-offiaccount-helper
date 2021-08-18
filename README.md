@@ -49,7 +49,7 @@
         * 导入脚本：scripts/sql/init.sql
         * 修改数据库连接：application.properties spring.datasource.xxx的值
         * 打包：mvn clean package -Dmaven.test.skip=true -U
-        * docker build -t nuptaxin/wx-subscription:v1.1.0 .
+        * docker build -t nuptaxin/wx-subscription:v1.2.0 .
         * 定义wx-subscription-rs.yaml
             ```yaml
              apiVersion: apps/v1
@@ -68,7 +68,7 @@
                  spec:
                    containers:
                    - name: wx-subscription
-                     image: nuptaxin/wx-subscription:v1.1.0
+                     image: nuptaxin/wx-subscription:v1.2.0
             ```
         * kubectl apply -f wx-subscription-rs.yaml
         * 查看pod使用的image版本号：kubectl describe po wx-subscription-xxxxx
@@ -135,14 +135,14 @@
 ## 版本号升级
 * 使用mvn命令进行升级
     * 升级版本号
-      > mvn versions:set -DgenerateBackupPoms=false -DnewVersion=1.1.0
+      > mvn versions:set -DgenerateBackupPoms=false -DnewVersion=1.2.0
 * 初始化sql版本升级
     * 如果是第一次安装使用，导入[init.sql](scripts/sql/init.sql)即可
     * 如果是从已有版本升级到最新版本，由版本号从小到大依次执行大于当前版本的[vx.x.x.sql](scripts/sql/upgrade)
 * 版本号升级逻辑遵循
     > https://semver.org/lang/zh-CN/
 * 发布当前版本后，在github上Draft a new release
-    * tag名称为当前版本号名称，如v1.0.0
+    * tag名称为当前版本号名称，如v1.2.0
     * 标题为RoadMap中的三级标题
     * 描述为三级标题下的列表
 * 同步gitee
