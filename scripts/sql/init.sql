@@ -25,13 +25,14 @@ USE
 DROP TABLE IF EXISTS `wechat_msg`;
 CREATE TABLE `wechat_msg`
 (
-    `id`           int(11) NOT NULL AUTO_INCREMENT,
-    `tousername`   varchar(255) NOT NULL,
-    `fromusername` varchar(255) NOT NULL,
-    `createtime`   datetime     NOT NULL,
-    `msgtype`      varchar(255) NOT NULL,
-    `content`      varchar(255) NOT NULL,
-    `funcflag`     varchar(255) DEFAULT NULL,
-    `msgid`        varchar(255) DEFAULT NULL,
+    `id`            int(11) NOT NULL AUTO_INCREMENT,
+    `tousername`    varchar(255) NOT NULL,
+    `fromusername`  varchar(255) NOT NULL,
+    `createtime`    datetime     NOT NULL,
+    `chat_bot_type` varchar(64)  NOT NULL DEFAULT 'tuling123',
+    `msgtype`       varchar(255) NOT NULL,
+    `content`       varchar(255) NOT NULL,
+    `funcflag`      varchar(255)          DEFAULT NULL,
+    `msgid`         varchar(255)          DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
