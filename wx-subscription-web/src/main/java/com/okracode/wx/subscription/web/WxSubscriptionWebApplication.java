@@ -6,6 +6,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import qunar.tc.qconfig.client.MapConfig;
 
 @SpringBootApplication
 @ComponentScan("com.okracode.wx.subscription")
@@ -19,7 +20,9 @@ public class WxSubscriptionWebApplication {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        SpringApplication.run(WxSubscriptionWebApplication.class, args);
+        SpringApplication springApplication = new SpringApplication(WxSubscriptionWebApplication.class);
+        springApplication.setDefaultProperties(MapConfig.get("application.properties").asProperties());
+        springApplication.run(args);
     }
 
 }
