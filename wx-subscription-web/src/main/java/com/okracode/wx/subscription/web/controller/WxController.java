@@ -52,24 +52,23 @@ public class WxController {
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
 
-        out.print(coreService.processRequest(request));
-        out.close();
-        /*// 创建一个路由器
-        WxMessageRouter router = new WxMessageRouter(iService);
+        // 创建一个路由器
         try {
+            WxMessageRouter router = new WxMessageRouter(iService);
             // 微信服务器推送过来的是XML格式。
             WxXmlMessage wx = XStreamTransformer.fromXml(WxXmlMessage.class, request.getInputStream());
-            System.out.println("消息：\n " + wx.toString());
-            router.rule().event(WxConsts.EVT_CLICK).eventKey(MenuKey.HELP).handler(HelpDocHandler.getInstance()).end();
+            log.info("接收到的消息：\n{}", wx.toString());
+            router.rule().handler(coreService).end();
+            // router.rule().event(WxConsts.EVT_CLICK).eventKey(MenuKey.HELP).handler(HelpDocHandler.getInstance()).end();
             // 把消息传递给路由器进行处理
             WxXmlOutMessage xmlOutMsg = router.route(wx);
             if (xmlOutMsg != null)
                 out.print(xmlOutMsg.toXml());// 因为是明文，所以不用加密，直接返回给用户。
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("无法应答微信消息", e);
         } finally {
             out.close();
-        }*/
+        }
     }
 }

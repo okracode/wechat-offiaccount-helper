@@ -2,10 +2,14 @@ package com.okracode.wx.subscription.service;
 
 import com.okracode.wx.subscription.repository.entity.receive.RecvTextMessage;
 import com.okracode.wx.subscription.service.util.MessageUtil;
+import com.soecode.wxtools.api.IService;
+import com.soecode.wxtools.api.WxMessageHandler;
+import com.soecode.wxtools.bean.WxXmlMessage;
+import com.soecode.wxtools.bean.WxXmlOutMessage;
+import com.soecode.wxtools.exception.WxErrorException;
 import java.util.Date;
 import java.util.Map;
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +21,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class CoreService {
+public class CoreService implements WxMessageHandler {
 
     @Resource
     private TextService textService;
@@ -28,31 +32,27 @@ public class CoreService {
      * @param request
      * @return
      */
-    public String processRequest(HttpServletRequest request) {
+    private String processRequest(WxXmlMessage wxXmlMessage) {
         String respMessage = null;
         try {
             // 默认返回的文本消息内容
             String respContent = "请求处理异常，请稍候尝试！";
 
-            // xml请求解析
-            Map<String, String> requestMap = MessageUtil.parseXml(request);
-
             // MsgId
-            long msgId = Long.valueOf(requestMap.get("MsgId"));
+            long msgId = wxXmlMessage.getMsgId();
             // 发送方帐号（open_id）
-            String fromUserName = requestMap.get("FromUserName");
+            String fromUserName = wxXmlMessage.getFromUserName();
             // 公众帐号
-            String toUserName = requestMap.get("ToUserName");
+            String toUserName = wxXmlMessage.getToUserName();
             // 消息类型
-            String msgType = requestMap.get("MsgType");
+            String msgType = wxXmlMessage.getMsgType();
             // 消息时间
-            String createTimeStr = requestMap.get("CreateTime");
-            Date createTime = new Date(Long.valueOf(createTimeStr) * 1000L);
+            Date createTime = new Date(wxXmlMessage.getCreateTime() * 1000L);
 
             // 文本消息
             if (msgType.equals(MessageUtil.RECV_MESSAGE_TYPE_TEXT)) {
                 // 消息内容
-                String content = requestMap.get("Content");
+                String content = wxXmlMessage.getContent();
                 RecvTextMessage recvTextMessage = new RecvTextMessage();
                 recvTextMessage.setContent(content);
                 recvTextMessage.setCreateTime(createTime);
@@ -83,7 +83,7 @@ public class CoreService {
             // 事件推送
             else if (msgType.equals(MessageUtil.RECV_MESSAGE_TYPE_EVENT)) {
                 // 事件类型
-                String eventType = requestMap.get("Event");
+                String eventType = wxXmlMessage.getEvent();
                 // 订阅
                 if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
                     respContent = "谢谢您的关注！";
@@ -104,5 +104,12 @@ public class CoreService {
         }
 
         return respMessage;
+    }
+
+    @Override
+    public WxXmlOutMessage handle(WxXmlMessage wxXmlMessage, Map<String, Object> map, IService iService)
+            throws WxErrorException {
+        return WxXmlOutMessage.TEXT().content(processRequest(wxXmlMessage)).toUser(wxXmlMessage.getFromUserName())
+                .fromUser(wxXmlMessage.getToUserName()).build();
     }
 }
