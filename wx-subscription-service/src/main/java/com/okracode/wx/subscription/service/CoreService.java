@@ -29,7 +29,7 @@ public class CoreService implements WxMessageHandler {
     /**
      * 处理微信发来的请求
      *
-     * @param request
+     * @param wxXmlMessage
      * @return
      */
     private String processRequest(WxXmlMessage wxXmlMessage) {
