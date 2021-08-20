@@ -296,7 +296,7 @@ public class TextService {
             log.error("无法将数据加入到消息队列中", e);
         }
 
-        return respMessage;
+        return textMessage.getContent();
     }
 
     /**
