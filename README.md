@@ -11,7 +11,7 @@
 
 ## 参考文档
 * wx-tools
-    * [源码](https://github.com/antgan/wx-tools)
+    * [源码](https://github.com/nuptaxin/wx-tools)
     * [教程](https://www.w3cschool.cn/wxtools/)
 * 微信公众号
     * [教程](https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html)
