@@ -1,5 +1,7 @@
 package com.okracode.wx.subscription.service.chatbot;
 
+import com.okracode.wx.subscription.common.enums.ChatBotTypeEnum;
+
 /**
  * 聊天机器人接口
  *
@@ -14,4 +16,6 @@ public interface ChatBotApiService {
      * @return
      */
     String callOpenApi(String content);
+
+    ChatBotTypeEnum getChatBotType();
 }
