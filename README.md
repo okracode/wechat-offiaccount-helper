@@ -138,7 +138,8 @@
       > mvn versions:set -DgenerateBackupPoms=false -DnewVersion=1.2.0
 * 初始化sql版本升级
     * 如果是第一次安装使用，导入[init.sql](scripts/sql/init.sql)即可
-    * 如果是从已有版本升级到最新版本，由版本号从小到大依次执行大于当前版本的[vx.x.x.sql](scripts/sql/upgrade)
+    * 如果是从已有版本升级到最新版本，由版本号从小到大依次执行[upgrade.sql](scripts/sql)
+    * 回滚升级，由版本号从大到小依次执行[rollback.sql](scripts/sql)
 * 版本号升级逻辑遵循
     > https://semver.org/lang/zh-CN/
 * 发布当前版本后，在github上Draft a new release
