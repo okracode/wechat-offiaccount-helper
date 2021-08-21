@@ -1,5 +1,6 @@
 package com.okracode.wx.subscription.service.queue;
 
+import com.okracode.wx.subscription.repository.entity.WechatMsg;
 import com.okracode.wx.subscription.repository.entity.receive.RecvTextMessage;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -12,6 +13,6 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class DataQueue {
 
-    public static LinkedBlockingQueue<RecvTextMessage> queue = new LinkedBlockingQueue<RecvTextMessage>();
+    public static LinkedBlockingQueue<WechatMsg> queue = new LinkedBlockingQueue<WechatMsg>();
 
 }

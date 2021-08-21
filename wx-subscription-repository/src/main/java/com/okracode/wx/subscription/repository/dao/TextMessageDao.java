@@ -1,6 +1,6 @@
 package com.okracode.wx.subscription.repository.dao;
 
-import com.okracode.wx.subscription.repository.entity.receive.RecvTextMessage;
+import com.okracode.wx.subscription.repository.entity.WechatMsg;
 import org.apache.ibatis.annotations.Insert;
 
 /**
@@ -11,7 +11,25 @@ import org.apache.ibatis.annotations.Insert;
  */
 public interface TextMessageDao {
 
-    @Insert("insert into wechat_msg(tousername,fromusername,createtime,msgtype,content,msgid)"
-            + "value(#{toUserName},#{fromUserName},#{createTime},#{msgType},#{content},#{msgId})")
-    void insertOneRecvMsg(RecvTextMessage recvTextMessage);
+    @Insert("insert into wechat_msg("
+            + "tousername, "
+            + "fromusername, "
+            + "createtime, "
+            + "msg_time, "
+            + "chat_bot_type, "
+            + "msgtype, "
+            + "content, "
+            + "funcflag, "
+            + "msgid)"
+            + "value("
+            + "#{toUserName}, "
+            + "#{fromUserName}, "
+            + "#{createTimeOld}, "
+            + "#{msgTime}, "
+            + "#{chatBotType}, "
+            + "#{msgType}, "
+            + "#{content}, "
+            + "#{funcFlag}, "
+            + "#{msgId})")
+    void insertOneRecvMsg(WechatMsg wechatMsg);
 }
