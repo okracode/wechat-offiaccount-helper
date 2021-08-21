@@ -23,7 +23,9 @@
 
 1. 本地调试
     * 本地启动程序
-        * 导入脚本：scripts/sql/init.sql
+        * 导入脚本
+            * 首次运行：scripts/sql/init.sql
+            * 升级：scripts/sql/vx.x.x~vx.x.x
         * 修改数据库连接：application.properties spring.datasource.xxx的值
         * 配置wx.properties中的wx.token值
         * 右键类 com.okracode.wx.subscription.web.WxSubscriptionWebApplication 运行(或Debug)
@@ -40,13 +42,17 @@
         * 获取临时子域名：your url is: https://wise-penguin-80.loca.lt
 2. 服务器运行
     * 普通方式
-        * 导入脚本：scripts/sql/init.sql
+        * 导入脚本
+            * 首次运行：scripts/sql/init.sql
+            * 升级：scripts/sql/vx.x.x~vx.x.x
         * 修改数据库连接：application.properties spring.datasource.xxx的值
         * 打包：mvn clean package -Dmaven.test.skip=true -U
         * 拷贝wx-subscription-web/target/wx-subscription.jar到服务器
         * 运行java -jar wx-subscription-web/target/wx-subscription.jar
     * docker中运行
-        * 导入脚本：scripts/sql/init.sql
+        * 导入脚本
+            * 首次运行：scripts/sql/init.sql
+            * 升级：scripts/sql/vx.x.x~vx.x.x
         * 修改数据库连接：application.properties spring.datasource.xxx的值
         * 打包：mvn clean package -Dmaven.test.skip=true -U
         * docker build -t nuptaxin/wx-subscription:v1.2.0 .
