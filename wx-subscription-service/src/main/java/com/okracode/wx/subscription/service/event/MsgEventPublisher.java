@@ -1,6 +1,6 @@
 package com.okracode.wx.subscription.service.event;
 
-import com.okracode.wx.subscription.repository.entity.receive.RecvTextMessage;
+import com.okracode.wx.subscription.repository.entity.WechatMsg;
 import javax.annotation.Resource;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ public class MsgEventPublisher {
     @Resource
     private ApplicationContext applicationContext;
 
-    public void publish(RecvTextMessage recvTextMessage) {
-        applicationContext.publishEvent(new MsgEvent(this, recvTextMessage));
+    public void publish(WechatMsg wechatMsg) {
+        applicationContext.publishEvent(new MsgEvent(this, wechatMsg));
     }
 }

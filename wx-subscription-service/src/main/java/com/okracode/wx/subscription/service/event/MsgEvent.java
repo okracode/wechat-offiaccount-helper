@@ -1,6 +1,6 @@
 package com.okracode.wx.subscription.service.event;
 
-import com.okracode.wx.subscription.repository.entity.receive.RecvTextMessage;
+import com.okracode.wx.subscription.repository.entity.WechatMsg;
 import org.springframework.context.ApplicationEvent;
 
 /**
@@ -12,18 +12,18 @@ import org.springframework.context.ApplicationEvent;
  */
 public class MsgEvent extends ApplicationEvent {
 
-    private RecvTextMessage recvTextMessage;
+    private WechatMsg wechatMsg;
 
-    public MsgEvent(Object source, RecvTextMessage recvTextMessage) {
+    public MsgEvent(Object source, WechatMsg wechatMsg) {
         super(source);
-        this.recvTextMessage = recvTextMessage;
+        this.wechatMsg = wechatMsg;
     }
 
-    public RecvTextMessage getRecvTextMessage() {
-        return recvTextMessage;
+    public WechatMsg getWechatMsg() {
+        return wechatMsg;
     }
 
-    public void setRecvTextMessage(RecvTextMessage recvTextMessage) {
-        this.recvTextMessage = recvTextMessage;
+    public void setWechatMsg(WechatMsg wechatMsg) {
+        this.wechatMsg = wechatMsg;
     }
 }

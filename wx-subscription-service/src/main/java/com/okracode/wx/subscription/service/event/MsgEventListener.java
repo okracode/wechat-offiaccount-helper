@@ -25,7 +25,7 @@ public class MsgEventListener implements ApplicationListener<MsgEvent> {
     @Async
     @Override
     public void onApplicationEvent(MsgEvent event) {
-        textMessageDao.insertOneRecvMsg(event.getRecvTextMessage());
+        textMessageDao.insertOneRecvMsg(event.getWechatMsg());
         log.debug("向数据库成功插入一组内容");
     }
 }
