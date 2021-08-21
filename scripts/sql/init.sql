@@ -13,7 +13,7 @@ CREATE TABLE `wechat_msg`
     `id`            int(11)      NOT NULL AUTO_INCREMENT,
     `tousername`    varchar(255) NOT NULL,
     `fromusername`  varchar(255) NOT NULL,
-    `createtime`    datetime     NOT NULL,
+    `createtime`    datetime              DEFAULT CURRENT_TIMESTAMP COMMENT '消息时间旧值',
     `msg_time`      datetime(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '消息时间',
     `chat_bot_type` smallint              DEFAULT NULL COMMENT 'NULL表示未调用聊天机器人。聊天机器人类型：0-图灵机器人，1-青云客',
     `msgtype`       varchar(255) NOT NULL,

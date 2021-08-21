@@ -28,11 +28,6 @@ public class WechatMsg {
      */
     private String fromUserName;
     /**
-     * 消息创建时间 已废弃，以后请使用msgTime
-     */
-    @Deprecated
-    private Date createTimeOld;
-    /**
      * 消息时间
      */
     private Date msgTime;
