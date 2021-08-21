@@ -9,7 +9,7 @@ import com.okracode.wx.subscription.repository.entity.send.Article;
 import com.okracode.wx.subscription.repository.entity.send.SendNewsMessage;
 import com.okracode.wx.subscription.repository.entity.send.SendTextMessage;
 import com.okracode.wx.subscription.service.chatbot.ChatBotApiService;
-import com.okracode.wx.subscription.service.queue.DataQueue;
+import com.okracode.wx.subscription.service.event.MsgEventPublisher;
 import com.okracode.wx.subscription.service.util.MessageUtil;
 import com.okracode.wx.subscription.service.util.ParseJson;
 import java.io.BufferedReader;
@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,8 @@ import org.springframework.stereotype.Service;
 public class TextService {
 
     private volatile LinkedHashSet<ChatBotApiService> sortedChatBotApi = Sets.newLinkedHashSet();
+    @Resource
+    private MsgEventPublisher msgEventPublisher;
 
     @Autowired
     public TextService(List<ChatBotApiService> chatBotApiServiceList) {
@@ -276,7 +279,7 @@ public class TextService {
         }
 
         try {
-            DataQueue.queue.put(recvTextMessage);
+            msgEventPublisher.publish(recvTextMessage);
             // 组一个假的RecvTextMessage暂时方便插入
             RecvTextMessage sendMsg = new RecvTextMessage();
             sendMsg.setMsgId(recvTextMessage.getMsgId());
@@ -288,7 +291,7 @@ public class TextService {
             if (isHelp(recvContent)) {
                 sendMsg.setContent("申请帮助菜单");
             }
-            DataQueue.queue.put(sendMsg);
+            msgEventPublisher.publish(sendMsg);
             log.debug("成功放入消息队列一组数据");
         } catch (Exception e) {
             log.error("无法将数据加入到消息队列中", e);
