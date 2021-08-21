@@ -2,7 +2,7 @@
 
 ## 技术栈
 
-* mysql
+* mysql(5.6.5+)
 * java
 * springboot
 * docker
