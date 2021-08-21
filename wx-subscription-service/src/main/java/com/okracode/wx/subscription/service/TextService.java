@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.okracode.wx.subscription.common.enums.ChatBotTypeEnum;
+import com.okracode.wx.subscription.repository.entity.WechatMsg;
 import com.okracode.wx.subscription.repository.entity.receive.RecvTextMessage;
 import com.okracode.wx.subscription.repository.entity.send.Article;
 import com.okracode.wx.subscription.repository.entity.send.SendNewsMessage;
@@ -26,6 +28,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.Resource;
@@ -63,7 +66,14 @@ public class TextService {
      * @return
      */
     public String processMsg(RecvTextMessage recvTextMessage) {
+        try {
+            msgEventPublisher.publish(convertWechatMsg(recvTextMessage));
+            log.debug("成功放入消息队列请求数据");
+        } catch (Exception e) {
+            log.error("无法将数据加入到消息队列中", e);
+        }
         String respMessage = null;
+        Integer chatBotType = null;
         String recvContent = recvTextMessage.getContent();
         // 回复文本消息
         SendTextMessage textMessage = new SendTextMessage();
@@ -264,6 +274,7 @@ public class TextService {
                 log.info("调用的机器人名称：" + chatBotApiService.getClass().getSimpleName());
                 result = chatBotApiService.callOpenApi(recvContent);
                 if (Objects.nonNull(result)) {
+                    chatBotType = Optional.ofNullable(chatBotApiService.getChatBotType()).map(ChatBotTypeEnum::getTypeCode).orElse(null);
                     tempSortedChatBotApi.add(chatBotApiService);
                     break;
                 }
@@ -275,24 +286,25 @@ public class TextService {
                 result = "对不起，你说的话真是太高深了……";
             }
             textMessage.setContent(result);
-            respMessage = MessageUtil.textMessageToXml(textMessage);
         }
 
         try {
-            msgEventPublisher.publish(recvTextMessage);
-            // 组一个假的RecvTextMessage暂时方便插入
-            RecvTextMessage sendMsg = new RecvTextMessage();
-            sendMsg.setMsgId(recvTextMessage.getMsgId());
-            sendMsg.setToUserName(recvTextMessage.getFromUserName());
-            sendMsg.setFromUserName(recvTextMessage.getToUserName());
-            sendMsg.setCreateTime(textMessage.getCreateTime());
-            sendMsg.setMsgType(MessageUtil.SEND_MESSAGE_TYPE_TEXT);
-            sendMsg.setContent(textMessage.getContent());
+            WechatMsg wechatMsg = WechatMsg.builder()
+                    .toUserName(recvTextMessage.getFromUserName())
+                    .fromUserName(recvTextMessage.getToUserName())
+                    .createTimeOld(textMessage.getCreateTime())
+                    .msgTime(textMessage.getCreateTime())
+                    .chatBotType(chatBotType)
+                    .msgType(MessageUtil.SEND_MESSAGE_TYPE_TEXT)
+                    .content(textMessage.getContent())
+                    .funcFlag(null)
+                    .msgId(recvTextMessage.getMsgId())
+                    .build();
             if (isHelp(recvContent)) {
-                sendMsg.setContent("申请帮助菜单");
+                wechatMsg.setContent("申请帮助菜单");
             }
-            msgEventPublisher.publish(sendMsg);
-            log.debug("成功放入消息队列一组数据");
+            msgEventPublisher.publish(wechatMsg);
+            log.debug("成功放入消息队列响应数据");
         } catch (Exception e) {
             log.error("无法将数据加入到消息队列中", e);
         }
@@ -382,5 +394,19 @@ public class TextService {
 
         return map;
 
+    }
+
+    private static WechatMsg convertWechatMsg(RecvTextMessage msg) {
+        return WechatMsg.builder()
+                .toUserName(msg.getToUserName())
+                .fromUserName(msg.getFromUserName())
+                .createTimeOld(msg.getCreateTime())
+                .msgTime(msg.getCreateTime())
+                .chatBotType(null)
+                .msgType(msg.getMsgType())
+                .content(msg.getContent())
+                .funcFlag(null)
+                .msgId(msg.getMsgId())
+                .build();
     }
 }
