@@ -1,10 +1,12 @@
 package com.okracode.wx.subscription.service.event;
 
 import com.okracode.wx.subscription.repository.dao.TextMessageDao;
+import com.okracode.wx.subscription.repository.entity.WechatMsg;
 import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,16 +18,17 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
-public class MsgEventListener implements ApplicationListener<MsgEvent> {
+@EnableAsync
+public class ApplicationEventListener {
 
     @Resource
     private TextMessageDao textMessageDao;
 
     //使用注解@Async支持 这样不仅可以支持通过调用，也支持异步调用，非常的灵活，
     @Async
-    @Override
-    public void onApplicationEvent(MsgEvent event) {
-        textMessageDao.insertOneRecvMsg(event.getWechatMsg());
+    @EventListener
+    public void msgEventListener(WechatMsg wechatMsg) {
+        textMessageDao.insertOneRecvMsg(wechatMsg);
         log.debug("向数据库成功插入一组内容");
     }
 }

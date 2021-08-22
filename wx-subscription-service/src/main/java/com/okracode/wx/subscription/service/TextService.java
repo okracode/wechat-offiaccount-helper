@@ -11,7 +11,6 @@ import com.okracode.wx.subscription.repository.entity.send.Article;
 import com.okracode.wx.subscription.repository.entity.send.SendNewsMessage;
 import com.okracode.wx.subscription.repository.entity.send.SendTextMessage;
 import com.okracode.wx.subscription.service.chatbot.ChatBotApiService;
-import com.okracode.wx.subscription.service.event.MsgEventPublisher;
 import com.okracode.wx.subscription.service.util.MessageUtil;
 import com.okracode.wx.subscription.service.util.ParseJson;
 import java.io.BufferedReader;
@@ -35,6 +34,7 @@ import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 
@@ -50,7 +50,7 @@ public class TextService {
 
     private volatile LinkedHashSet<ChatBotApiService> sortedChatBotApi = Sets.newLinkedHashSet();
     @Resource
-    private MsgEventPublisher msgEventPublisher;
+    private ApplicationContext applicationContext;
 
     @Autowired
     public TextService(List<ChatBotApiService> chatBotApiServiceList) {
@@ -67,7 +67,7 @@ public class TextService {
      */
     public String processMsg(RecvTextMessage recvTextMessage) {
         try {
-            msgEventPublisher.publish(convertWechatMsg(recvTextMessage));
+            applicationContext.publishEvent(convertWechatMsg(recvTextMessage));
             log.debug("成功放入消息队列请求数据");
         } catch (Exception e) {
             log.error("无法将数据加入到消息队列中", e);
@@ -302,7 +302,7 @@ public class TextService {
             if (isHelp(recvContent)) {
                 wechatMsg.setContent("申请帮助菜单");
             }
-            msgEventPublisher.publish(wechatMsg);
+            applicationContext.publishEvent(wechatMsg);
             log.debug("成功放入消息队列响应数据");
         } catch (Exception e) {
             log.error("无法将数据加入到消息队列中", e);
