@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.okracode.wx</groupId>
     <artifactId>wx-subscription</artifactId>
-    <version>1.3.0</version>
+    <version>1.4.0</version>
   </parent>
   <artifactId>wx-subscription-service</artifactId>
   <name>wx-subscription-service</name>
