@@ -11,7 +11,6 @@ import com.okracode.wx.subscription.repository.entity.send.Article;
 import com.okracode.wx.subscription.repository.entity.send.SendNewsMessage;
 import com.okracode.wx.subscription.repository.entity.send.SendTextMessage;
 import com.okracode.wx.subscription.service.chatbot.ChatBotApiService;
-import com.okracode.wx.subscription.service.queue.DataQueue;
 import com.okracode.wx.subscription.service.util.MessageUtil;
 import com.okracode.wx.subscription.service.util.ParseJson;
 import java.io.BufferedReader;
@@ -31,9 +30,11 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 
@@ -48,6 +49,8 @@ import org.springframework.stereotype.Service;
 public class TextService {
 
     private volatile LinkedHashSet<ChatBotApiService> sortedChatBotApi = Sets.newLinkedHashSet();
+    @Resource
+    private ApplicationContext applicationContext;
 
     @Autowired
     public TextService(List<ChatBotApiService> chatBotApiServiceList) {
@@ -64,7 +67,7 @@ public class TextService {
      */
     public String processMsg(RecvTextMessage recvTextMessage) {
         try {
-            DataQueue.queue.put(convertWechatMsg(recvTextMessage));
+            applicationContext.publishEvent(convertWechatMsg(recvTextMessage));
             log.debug("成功放入消息队列请求数据");
         } catch (Exception e) {
             log.error("无法将数据加入到消息队列中", e);
@@ -289,7 +292,6 @@ public class TextService {
             WechatMsg wechatMsg = WechatMsg.builder()
                     .toUserName(recvTextMessage.getFromUserName())
                     .fromUserName(recvTextMessage.getToUserName())
-                    .createTimeOld(textMessage.getCreateTime())
                     .msgTime(textMessage.getCreateTime())
                     .chatBotType(chatBotType)
                     .msgType(MessageUtil.SEND_MESSAGE_TYPE_TEXT)
@@ -300,7 +302,7 @@ public class TextService {
             if (isHelp(recvContent)) {
                 wechatMsg.setContent("申请帮助菜单");
             }
-            DataQueue.queue.put(wechatMsg);
+            applicationContext.publishEvent(wechatMsg);
             log.debug("成功放入消息队列响应数据");
         } catch (Exception e) {
             log.error("无法将数据加入到消息队列中", e);
@@ -397,7 +399,6 @@ public class TextService {
         return WechatMsg.builder()
                 .toUserName(msg.getToUserName())
                 .fromUserName(msg.getFromUserName())
-                .createTimeOld(msg.getCreateTime())
                 .msgTime(msg.getCreateTime())
                 .chatBotType(null)
                 .msgType(msg.getMsgType())
