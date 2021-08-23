@@ -2,6 +2,7 @@ package com.okracode.wx.subscription.service.chatbot.impl;
 
 import com.google.common.base.Objects;
 import com.okracode.wx.subscription.common.JsonUtil;
+import com.okracode.wx.subscription.common.enums.ChatBotTypeEnum;
 import com.okracode.wx.subscription.service.chatbot.ChatBotApiService;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -53,7 +54,7 @@ public class QingyunkeApiServiceImpl implements ChatBotApiService {
         } catch (IOException e) {
             log.error("io exp", e);
         }
-        if(StringUtils.isBlank(result)) {
+        if (StringUtils.isBlank(result)) {
             return null;
         }
 
@@ -69,5 +70,10 @@ public class QingyunkeApiServiceImpl implements ChatBotApiService {
             log.error("json exp", e);
         }
         return null;
+    }
+
+    @Override
+    public ChatBotTypeEnum getChatBotType() {
+        return ChatBotTypeEnum.QING_YUN_KE;
     }
 }

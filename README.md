@@ -2,7 +2,7 @@
 
 ## 技术栈
 
-* mysql
+* mysql5.6.5+(mariadb10.1+)
 * java
 * springboot
 * docker
@@ -11,7 +11,7 @@
 
 ## 参考文档
 * wx-tools
-    * [源码](https://github.com/antgan/wx-tools)
+    * [源码](https://github.com/nuptaxin/wx-tools)
     * [教程](https://www.w3cschool.cn/wxtools/)
 * 微信公众号
     * [教程](https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html)
@@ -23,7 +23,9 @@
 
 1. 本地调试
     * 本地启动程序
-        * 导入脚本：scripts/sql/init.sql
+        * 导入脚本
+            * 首次运行：scripts/sql/init.sql
+            * 升级：scripts/sql/vx.x.x~vx.x.x
         * 修改数据库连接：application.properties spring.datasource.xxx的值
         * 配置wx.properties中的wx.token值
         * 右键类 com.okracode.wx.subscription.web.WxSubscriptionWebApplication 运行(或Debug)
@@ -40,16 +42,20 @@
         * 获取临时子域名：your url is: https://wise-penguin-80.loca.lt
 2. 服务器运行
     * 普通方式
-        * 导入脚本：scripts/sql/init.sql
+        * 导入脚本
+            * 首次运行：scripts/sql/init.sql
+            * 升级：scripts/sql/vx.x.x~vx.x.x
         * 修改数据库连接：application.properties spring.datasource.xxx的值
         * 打包：mvn clean package -Dmaven.test.skip=true -U
         * 拷贝wx-subscription-web/target/wx-subscription.jar到服务器
         * 运行java -jar wx-subscription-web/target/wx-subscription.jar
     * docker中运行
-        * 导入脚本：scripts/sql/init.sql
+        * 导入脚本
+            * 首次运行：scripts/sql/init.sql
+            * 升级：scripts/sql/vx.x.x~vx.x.x
         * 修改数据库连接：application.properties spring.datasource.xxx的值
         * 打包：mvn clean package -Dmaven.test.skip=true -U
-        * docker build -t nuptaxin/wx-subscription:v1.1.1 .
+        * docker build -t nuptaxin/wx-subscription:v1.3.0 .
         * 定义wx-subscription-rs.yaml
             ```yaml
              apiVersion: apps/v1
@@ -68,7 +74,7 @@
                  spec:
                    containers:
                    - name: wx-subscription
-                     image: nuptaxin/wx-subscription:v1.1.1
+                     image: nuptaxin/wx-subscription:v1.3.0
             ```
         * kubectl apply -f wx-subscription-rs.yaml
         * 查看pod使用的image版本号：kubectl describe po wx-subscription-rs-xxxxx
@@ -135,14 +141,15 @@
 ## 版本号升级
 * 使用mvn命令进行升级
     * 升级版本号
-      > mvn versions:set -DgenerateBackupPoms=false -DnewVersion=1.1.1
+      > mvn versions:set -DgenerateBackupPoms=false -DnewVersion=1.3.0
 * 初始化sql版本升级
     * 如果是第一次安装使用，导入[init.sql](scripts/sql/init.sql)即可
-    * 如果是从已有版本升级到最新版本，由版本号从小到大依次执行大于当前版本的[vx.x.x.sql](scripts/sql/upgrade)
+    * 如果是从已有版本升级到最新版本[注：不支持跨版本平滑升级]，由版本号从小到大依次执行[upgrade.sql](scripts/sql)
+    * 回滚升级，由版本号从大到小依次执行[rollback.sql](scripts/sql)
 * 版本号升级逻辑遵循
     > https://semver.org/lang/zh-CN/
 * 发布当前版本后，在github上Draft a new release
-    * tag名称为当前版本号名称，如v1.1.1
+    * tag名称为当前版本号名称，如v1.3.0
     * 标题为RoadMap中的三级标题
     * 描述为三级标题下的列表
 * 同步gitee

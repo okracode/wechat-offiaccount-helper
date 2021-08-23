@@ -3,6 +3,7 @@ package com.okracode.wx.subscription.service.chatbot.impl;
 import com.google.common.base.Objects;
 import com.okracode.wx.subscription.common.JsonUtil;
 import com.okracode.wx.subscription.common.conf.CommonConfig;
+import com.okracode.wx.subscription.common.enums.ChatBotTypeEnum;
 import com.okracode.wx.subscription.service.chatbot.ChatBotApiService;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -74,5 +75,10 @@ public class Tuling123ApiServiceImpl implements ChatBotApiService {
             log.error("json exp", e);
         }
         return null;
+    }
+
+    @Override
+    public ChatBotTypeEnum getChatBotType() {
+        return ChatBotTypeEnum.TU_LING_123;
     }
 }
