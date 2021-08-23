@@ -132,9 +132,9 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>com.okracode.wx</groupId>
+      <groupId>com.okracode.qconfig</groupId>
       <artifactId>qconfig-client</artifactId>
-      <version>0.5.0-SNAPSHOT-0.0.1</version>
+      <version>0.5.0-SNAPSHOT-1.0.0</version>
       <optional>true</optional>
     </dependency>
   </dependencies>
