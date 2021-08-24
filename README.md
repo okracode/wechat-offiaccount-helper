@@ -46,7 +46,7 @@
             * 首次运行：scripts/sql/init.sql
             * 升级：scripts/sql/vx.x.x~vx.x.x
         * 修改数据库连接：application.properties spring.datasource.xxx的值
-        * 打包：mvn clean package -Dmaven.test.skip=true -U
+        * 打包：mvn clean package -U
         * 拷贝wx-subscription-web/target/wx-subscription.jar到服务器
         * 运行java -jar wx-subscription-web/target/wx-subscription.jar
     * docker中运行
@@ -54,7 +54,7 @@
             * 首次运行：scripts/sql/init.sql
             * 升级：scripts/sql/vx.x.x~vx.x.x
         * 修改数据库连接：application.properties spring.datasource.xxx的值
-        * 打包：mvn clean package -Dmaven.test.skip=true -U
+        * 打包：mvn clean package -U
         * docker build -t nuptaxin/wx-subscription:v1.4.0 .
         * 定义wx-subscription-rs.yaml
             ```yaml
