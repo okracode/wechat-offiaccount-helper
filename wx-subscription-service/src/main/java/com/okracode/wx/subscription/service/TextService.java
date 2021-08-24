@@ -1,15 +1,18 @@
 package com.okracode.wx.subscription.service;
 
-import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.okracode.wx.subscription.common.JsonUtil;
+import com.okracode.wx.subscription.common.enums.ChatBotTypeEnum;
+import com.okracode.wx.subscription.repository.entity.WechatMsg;
 import com.okracode.wx.subscription.repository.entity.receive.RecvTextMessage;
 import com.okracode.wx.subscription.repository.entity.send.Article;
 import com.okracode.wx.subscription.repository.entity.send.SendNewsMessage;
 import com.okracode.wx.subscription.repository.entity.send.SendTextMessage;
 import com.okracode.wx.subscription.service.chatbot.ChatBotApiService;
-import com.okracode.wx.subscription.service.queue.DataQueue;
 import com.okracode.wx.subscription.service.util.MessageUtil;
 import com.okracode.wx.subscription.service.util.ParseJson;
 import java.io.BufferedReader;
@@ -26,11 +29,14 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 
@@ -45,6 +51,8 @@ import org.springframework.stereotype.Service;
 public class TextService {
 
     private volatile LinkedHashSet<ChatBotApiService> sortedChatBotApi = Sets.newLinkedHashSet();
+    @Resource
+    private ApplicationContext applicationContext;
 
     @Autowired
     public TextService(List<ChatBotApiService> chatBotApiServiceList) {
@@ -60,7 +68,14 @@ public class TextService {
      * @return
      */
     public String processMsg(RecvTextMessage recvTextMessage) {
+        try {
+            applicationContext.publishEvent(convertWechatMsg(recvTextMessage));
+            log.debug("成功放入消息队列请求数据");
+        } catch (Exception e) {
+            log.error("无法将数据加入到消息队列中", e);
+        }
         String respMessage = null;
+        Integer chatBotType = null;
         String recvContent = recvTextMessage.getContent();
         // 回复文本消息
         SendTextMessage textMessage = new SendTextMessage();
@@ -261,6 +276,7 @@ public class TextService {
                 log.info("调用的机器人名称：" + chatBotApiService.getClass().getSimpleName());
                 result = chatBotApiService.callOpenApi(recvContent);
                 if (Objects.nonNull(result)) {
+                    chatBotType = Optional.ofNullable(chatBotApiService.getChatBotType()).map(ChatBotTypeEnum::getTypeCode).orElse(null);
                     tempSortedChatBotApi.add(chatBotApiService);
                     break;
                 }
@@ -272,29 +288,29 @@ public class TextService {
                 result = "对不起，你说的话真是太高深了……";
             }
             textMessage.setContent(result);
-            respMessage = MessageUtil.textMessageToXml(textMessage);
         }
 
         try {
-            DataQueue.queue.put(recvTextMessage);
-            // 组一个假的RecvTextMessage暂时方便插入
-            RecvTextMessage sendMsg = new RecvTextMessage();
-            sendMsg.setMsgId(recvTextMessage.getMsgId());
-            sendMsg.setToUserName(recvTextMessage.getFromUserName());
-            sendMsg.setFromUserName(recvTextMessage.getToUserName());
-            sendMsg.setCreateTime(textMessage.getCreateTime());
-            sendMsg.setMsgType(MessageUtil.SEND_MESSAGE_TYPE_TEXT);
-            sendMsg.setContent(textMessage.getContent());
+            WechatMsg wechatMsg = WechatMsg.builder()
+                    .toUserName(recvTextMessage.getFromUserName())
+                    .fromUserName(recvTextMessage.getToUserName())
+                    .msgTime(textMessage.getCreateTime())
+                    .chatBotType(chatBotType)
+                    .msgType(MessageUtil.SEND_MESSAGE_TYPE_TEXT)
+                    .content(textMessage.getContent())
+                    .funcFlag(null)
+                    .msgId(recvTextMessage.getMsgId())
+                    .build();
             if (isHelp(recvContent)) {
-                sendMsg.setContent("申请帮助菜单");
+                wechatMsg.setContent("申请帮助菜单");
             }
-            DataQueue.queue.put(sendMsg);
-            log.debug("成功放入消息队列一组数据");
+            applicationContext.publishEvent(wechatMsg);
+            log.debug("成功放入消息队列响应数据");
         } catch (Exception e) {
             log.error("无法将数据加入到消息队列中", e);
         }
 
-        return respMessage;
+        return textMessage.getContent();
     }
 
     /**
@@ -351,7 +367,6 @@ public class TextService {
         URL url = new URL("http://www.weather.com.cn/data/cityinfo/" + Cityid + ".html");
         URLConnection connectionData = url.openConnection();
         connectionData.setConnectTimeout(1000);
-        Map<String, Object> map = new HashMap<String, Object>();
         try {
             BufferedReader br =
                     new BufferedReader(new InputStreamReader(connectionData.getInputStream(),
@@ -363,21 +378,27 @@ public class TextService {
             }
             String datas = sb.toString();
             System.out.println(datas);
-            JSONObject jsonData = JSONObject.parseObject(datas);
-            JSONObject info = jsonData.getJSONObject("weatherinfo");
-            map.put("city", info.getString("city").toString());// 城市
-            map.put("temp1", info.getString("temp1").toString());// 最高温度
-            map.put("temp2", info.getString("temp2").toString());// 最低温度
-            map.put("weather", info.getString("weather").toString());// 天气
-            map.put("ptime", info.getString("ptime").toString());// 发布时间
-
+            JsonNode jsonNode = JsonUtil.getNode(datas);
+            return JsonUtil.convert2Map(jsonNode.findValue("weatherinfo").toString());
         } catch (SocketTimeoutException e) {
             log.error("连接超时", e);
         } catch (FileNotFoundException e) {
             log.error("加载文件出错", e);
         }
+        return Maps.newHashMap();
 
-        return map;
+    }
 
+    private static WechatMsg convertWechatMsg(RecvTextMessage msg) {
+        return WechatMsg.builder()
+                .toUserName(msg.getToUserName())
+                .fromUserName(msg.getFromUserName())
+                .msgTime(msg.getCreateTime())
+                .chatBotType(null)
+                .msgType(msg.getMsgType())
+                .content(msg.getContent())
+                .funcFlag(null)
+                .msgId(msg.getMsgId())
+                .build();
     }
 }

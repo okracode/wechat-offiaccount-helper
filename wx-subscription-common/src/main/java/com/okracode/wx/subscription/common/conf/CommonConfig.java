@@ -11,9 +11,4 @@ public class CommonConfig {
     @Value("${tulingRobot}")
     private String tulingRobot;
 
-    @Value("${token}")
-    private String token;
-
-    private String xxx;
-
 }
