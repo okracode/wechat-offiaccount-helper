@@ -27,9 +27,13 @@
 ### github的docker一键部署
 - [ ] 开启docker在github上的自动打包
 ### 移除fastjson
-- [ ] jackson替换fastjson
+- [x] jackson替换fastjson
 ### 耗时打点
 - [ ] 增加接口调用与api调用耗时打点
+### 日志框架升级
+- [ ] 日志框架升级为log4j2
+### 微信msg_time时间校准
+- [ ] 微信msg_time时间校准
 
 ## 3. 增加菜单
 ### 增加菜单
