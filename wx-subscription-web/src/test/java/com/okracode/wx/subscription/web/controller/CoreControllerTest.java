@@ -3,9 +3,13 @@ package com.okracode.wx.subscription.web.controller;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import ch.vorburger.exec.ManagedProcessException;
+import ch.vorburger.mariadb4j.DB;
+import ch.vorburger.mariadb4j.DBConfigurationBuilder;
 import com.okracode.wx.subscription.service.util.ParseJson;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeUnit;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
@@ -14,6 +18,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,14 +33,31 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class CoreControllerTest {
 
+    private static final int DB_PORT = 3309;
+    private static DB db;
+
     @BeforeClass
-    public static void init() {
+    public static void beforeClass() throws Exception {
+        DBConfigurationBuilder builder = DBConfigurationBuilder.newBuilder();
+        builder.setPort(DB_PORT);
+        builder.addArg("--user=root");
+        builder.addArg("--enable-lower_case_table_names");
+        db = DB.newEmbeddedDB(builder.build());
+        db.start();
+        db.source("sql/init.sql");
         try {
             // 读取城市编码文件
             ParseJson.parseJsonFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @AfterClass
+    public static void afterClass() throws ManagedProcessException, InterruptedException {
+        // 有异步event，等待5s再关闭db
+        TimeUnit.SECONDS.sleep(5);
+        db.stop();
     }
 
     @Test

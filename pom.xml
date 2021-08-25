@@ -158,6 +158,14 @@
 
         <!-- Configuration 里面写配置信息 -->
         <configuration>
+          <excludes>
+            <exclude>com/okracode/wx/subscription/repository/entity/**</exclude>
+            <exclude>com/okracode/wx/subscription/service/**</exclude>
+            <exclude>com/okracode/wx/subscription/web/**</exclude>
+          </excludes>
+          <includes>
+            <include>com/okracode/wx/subscription/web/controller/WxController</include>
+          </includes>
           <!-- rules里面指定覆盖规则 -->
           <rules>
             <rule implementation="org.jacoco.maven.RuleConfiguration">
