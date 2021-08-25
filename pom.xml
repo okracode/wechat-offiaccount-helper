@@ -161,11 +161,11 @@
           <excludes>
             <exclude>com/okracode/wx/subscription/repository/entity/**</exclude>
             <exclude>com/okracode/wx/subscription/service/**</exclude>
-            <exclude>com/okracode/wx/subscription/web/**</exclude>
+            <exclude>com/okracode/wx/subscription/web/controller/HelpDocHandler.class</exclude>
+            <exclude>com/okracode/wx/subscription/web/controller/Menu.class</exclude>
+            <exclude>com/okracode/wx/subscription/web/controller/MenuKey.class</exclude>
+            <exclude>com/okracode/wx/subscription/web/controller/ResponseConst.class</exclude>
           </excludes>
-          <includes>
-            <include>com/okracode/wx/subscription/web/controller/WxController</include>
-          </includes>
           <!-- rules里面指定覆盖规则 -->
           <rules>
             <rule implementation="org.jacoco.maven.RuleConfiguration">
