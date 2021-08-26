@@ -10,7 +10,7 @@
   <groupId>com.okracode.wx</groupId>
   <artifactId>wx-subscription</artifactId>
   <packaging>pom</packaging>
-  <version>1.4.0</version>
+  <version>1.5.0</version>
   <name>wechat subscription app</name>
   <url>okracode.com</url>
 
@@ -174,25 +174,25 @@
                 <!-- 指定方法覆盖到80% -->
                 <limit implementation="org.jacoco.report.check.Limit">
                   <counter>METHOD</counter>
-                  <value>COVEREDRATIO</value>
+                  <value>CONVERTER</value>
                   <minimum>0.50</minimum>
                 </limit>
                 <!-- 指定指令覆盖到80% -->
                 <limit implementation="org.jacoco.report.check.Limit">
                   <counter>INSTRUCTION</counter>
-                  <value>COVEREDRATIO</value>
+                  <value>CONVERTER</value>
                   <minimum>0.50</minimum>
                 </limit>
                 <!-- 指定行覆盖到80% -->
                 <limit implementation="org.jacoco.report.check.Limit">
                   <counter>LINE</counter>
-                  <value>COVEREDRATIO</value>
+                  <value>CONVERTER</value>
                   <minimum>0.50</minimum>
                 </limit>
                 <!-- 指定类覆盖到100%，不能遗失任何类 -->
                 <limit implementation="org.jacoco.report.check.Limit">
                   <counter>CLASS</counter>
-                  <value>MISSEDCOUNT</value>
+                  <value>MISCOUNT</value>
                   <maximum>10</maximum>
                 </limit>
               </limits>
