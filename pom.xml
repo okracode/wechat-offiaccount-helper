@@ -10,7 +10,7 @@
   <groupId>com.okracode.wx</groupId>
   <artifactId>wx-subscription</artifactId>
   <packaging>pom</packaging>
-  <version>1.4.0</version>
+  <version>1.5.0</version>
   <name>wechat subscription app</name>
   <url>okracode.com</url>
 
@@ -73,6 +73,12 @@
         <artifactId>wx-tools</artifactId>
         <version>2.1.4-RELEASE-1.0.0</version>
       </dependency>
+      <dependency>
+        <groupId>org.craftercms.mariaDB4j</groupId>
+        <artifactId>mariaDB4j</artifactId>
+        <version>2.4.9E</version>
+        <scope>test</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -115,5 +121,86 @@
       <artifactId>lombok</artifactId>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+      <groupId>org.craftercms.mariaDB4j</groupId>
+      <artifactId>mariaDB4j</artifactId>
+    </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.2</version>
+        <executions>
+          <execution>
+            <id>prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>check</id>
+            <phase>package</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+
+        <!-- Configuration 里面写配置信息 -->
+        <configuration>
+          <excludes>
+            <exclude>com/okracode/wx/subscription/repository/entity/**</exclude>
+            <exclude>com/okracode/wx/subscription/service/**</exclude>
+            <exclude>com/okracode/wx/subscription/web/controller/HelpDocHandler.class</exclude>
+            <exclude>com/okracode/wx/subscription/web/controller/Menu.class</exclude>
+            <exclude>com/okracode/wx/subscription/web/controller/MenuKey.class</exclude>
+            <exclude>com/okracode/wx/subscription/web/controller/ResponseConst.class</exclude>
+          </excludes>
+          <!-- rules里面指定覆盖规则 -->
+          <rules>
+            <rule implementation="org.jacoco.maven.RuleConfiguration">
+              <element>BUNDLE</element>
+              <limits>
+                <!-- 指定方法覆盖到80% -->
+                <limit implementation="org.jacoco.report.check.Limit">
+                  <counter>METHOD</counter>
+                  <value>COVEREDRATIO</value>
+                  <minimum>0.50</minimum>
+                </limit>
+                <!-- 指定指令覆盖到80% -->
+                <limit implementation="org.jacoco.report.check.Limit">
+                  <counter>INSTRUCTION</counter>
+                  <value>COVEREDRATIO</value>
+                  <minimum>0.50</minimum>
+                </limit>
+                <!-- 指定行覆盖到80% -->
+                <limit implementation="org.jacoco.report.check.Limit">
+                  <counter>LINE</counter>
+                  <value>COVEREDRATIO</value>
+                  <minimum>0.50</minimum>
+                </limit>
+                <!-- 指定类覆盖到100%，不能遗失任何类 -->
+                <limit implementation="org.jacoco.report.check.Limit">
+                  <counter>CLASS</counter>
+                  <value>MISSEDCOUNT</value>
+                  <maximum>10</maximum>
+                </limit>
+              </limits>
+            </rule>
+          </rules>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>
