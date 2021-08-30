@@ -149,10 +149,11 @@
     * 回滚升级，由版本号从大到小依次执行[rollback.sql](scripts/sql)
 * 版本号升级逻辑遵循
     > https://semver.org/lang/zh-CN/
+* 更新RoadMap和UpgradeLog
 * 发布当前版本后，在github上Draft a new release
-    * tag名称为当前版本号名称，如v1.5.1
-    * 标题为RoadMap中的三级标题
-    * 描述为三级标题下的列表
+    * tag名称为UpgradeLog版本号
+    * 标题为UpgradeLog中的三级标题
+    * 描述为UpgradeLog三级标题下的列表
 * 同步gitee
     > https://gitee.com/nuptaxin/wx-subscription
 * 修改docker命令与k8s脚本版本号
