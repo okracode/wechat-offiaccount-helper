@@ -6,7 +6,6 @@ import com.soecode.wxtools.api.WxConsts;
 import com.soecode.wxtools.api.WxMessageHandler;
 import com.soecode.wxtools.bean.WxXmlMessage;
 import com.soecode.wxtools.bean.WxXmlOutMessage;
-import com.soecode.wxtools.exception.WxErrorException;
 import java.util.Date;
 import java.util.Map;
 import javax.annotation.Resource;
@@ -107,8 +106,7 @@ public class CoreService implements WxMessageHandler {
     }
 
     @Override
-    public WxXmlOutMessage handle(WxXmlMessage wxXmlMessage, Map<String, Object> map, IService iService)
-            throws WxErrorException {
+    public WxXmlOutMessage handle(WxXmlMessage wxXmlMessage, Map<String, Object> map, IService iService) {
         return WxXmlOutMessage.TEXT().content(processRequest(wxXmlMessage)).toUser(wxXmlMessage.getFromUserName())
                 .fromUser(wxXmlMessage.getToUserName()).build();
     }

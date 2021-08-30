@@ -3,6 +3,7 @@ package com.okracode.wx.subscription.service;
 import ch.vorburger.exec.ManagedProcessException;
 import ch.vorburger.mariadb4j.DB;
 import ch.vorburger.mariadb4j.DBConfigurationBuilder;
+import com.okracode.wx.subscription.service.event.ApplicationEventListenerTest;
 import com.okracode.wx.subscription.service.util.ParseJsonTest;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -14,7 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @RunWith(Suite.class)
-@SuiteClasses(value = {ParseJsonTest.class})
+@SuiteClasses(value = {ParseJsonTest.class, ApplicationEventListenerTest.class})
 @SpringBootApplication
 @ComponentScan("com.okracode.wx.subscription")
 @MapperScan("com.okracode.wx.subscription.repository.dao")
