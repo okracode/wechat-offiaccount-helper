@@ -7,6 +7,7 @@ package com.okracode.wx.subscription.web.controller;
  * @version 1.0.0
  * @date 2021/8/17
  */
+@Deprecated
 public class MenuKey {
     public static final String CHANGE_NEWS = "CHANGE_NEWS";
     public static final String HELP = "HELP";
