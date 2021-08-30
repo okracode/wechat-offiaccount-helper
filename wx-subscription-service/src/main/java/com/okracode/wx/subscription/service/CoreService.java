@@ -1,8 +1,8 @@
 package com.okracode.wx.subscription.service;
 
 import com.okracode.wx.subscription.repository.entity.receive.RecvTextMessage;
-import com.okracode.wx.subscription.service.util.MessageUtil;
 import com.soecode.wxtools.api.IService;
+import com.soecode.wxtools.api.WxConsts;
 import com.soecode.wxtools.api.WxMessageHandler;
 import com.soecode.wxtools.bean.WxXmlMessage;
 import com.soecode.wxtools.bean.WxXmlOutMessage;
@@ -50,7 +50,7 @@ public class CoreService implements WxMessageHandler {
             Date createTime = new Date(wxXmlMessage.getCreateTime() * 1000L);
 
             // 文本消息
-            if (msgType.equals(MessageUtil.RECV_MESSAGE_TYPE_TEXT)) {
+            if (msgType.equals(WxConsts.XML_MSG_TEXT)) {
                 // 消息内容
                 String content = wxXmlMessage.getContent();
                 RecvTextMessage recvTextMessage = new RecvTextMessage();
@@ -65,35 +65,35 @@ public class CoreService implements WxMessageHandler {
                 respMessage = textService.processMsg(recvTextMessage);
             }
             // 图片消息
-            else if (msgType.equals(MessageUtil.RECV_MESSAGE_TYPE_IMAGE)) {
+            else if (msgType.equals(WxConsts.XML_MSG_IMAGE)) {
                 respContent = "您发送的是图片消息！";
             }
             // 地理位置消息
-            else if (msgType.equals(MessageUtil.RECV_MESSAGE_TYPE_LOCATION)) {
+            else if (msgType.equals(WxConsts.XML_MSG_LOCATION)) {
                 respContent = "您发送的是地理位置消息！";
             }
             // 链接消息
-            else if (msgType.equals(MessageUtil.RECV_MESSAGE_TYPE_LINK)) {
+            else if (msgType.equals(WxConsts.XML_MSG_LINK)) {
                 respContent = "您发送的是链接消息！";
             }
             // 音频消息
-            else if (msgType.equals(MessageUtil.RECV_MESSAGE_TYPE_VOICE)) {
+            else if (msgType.equals(WxConsts.XML_MSG_VOICE)) {
                 respContent = "您发送的是音频消息！";
             }
             // 事件推送
-            else if (msgType.equals(MessageUtil.RECV_MESSAGE_TYPE_EVENT)) {
+            else if (msgType.equals(WxConsts.XML_MSG_EVENT)) {
                 // 事件类型
                 String eventType = wxXmlMessage.getEvent();
                 // 订阅
-                if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
+                if (eventType.equals(WxConsts.EVT_SUBSCRIBE)) {
                     respContent = "谢谢您的关注！";
                 }
                 // 取消订阅
-                else if (eventType.equals(MessageUtil.EVENT_TYPE_UNSUBSCRIBE)) {
+                else if (eventType.equals(WxConsts.EVT_UNSUBSCRIBE)) {
                     // TODO 取消订阅后用户再收不到公众号发送的消息，因此不需要回复消息
                 }
                 // 自定义菜单点击事件
-                else if (eventType.equals(MessageUtil.EVENT_TYPE_CLICK)) {
+                else if (eventType.equals(WxConsts.EVT_CLICK)) {
                     // TODO 自定义菜单权没有开放，暂不处理该类消息
                 }
             }
