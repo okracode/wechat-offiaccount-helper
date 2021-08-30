@@ -29,7 +29,7 @@
         * 修改数据库连接：application.properties spring.datasource.xxx的值
         * 配置wx.properties中的wx.token值
         * 右键类 com.okracode.wx.subscription.web.WxSubscriptionWebApplication 运行(或Debug)
-        * 访问localhost:8080，看到页面表示本地运行成功
+        * 访问localhost:8080，看到Hello world!页面表示本地运行成功
     * 使用Ngrok做本地远程域名映射[目前微信已经封了此域名]
         * 下载安装[Ngrok](https://ngrok.com/download)
         * 解压：unzip ngrok.zip
@@ -45,17 +45,18 @@
         * 导入脚本
             * 首次运行：scripts/sql/init.sql
             * 升级：scripts/sql/vx.x.x~vx.x.x
-        * 修改数据库连接：application.properties spring.datasource.xxx的值
         * 打包：mvn clean package -U
-        * 拷贝wx-subscription-web/target/wx-subscription.jar到服务器
-        * 运行java -jar wx-subscription-web/target/wx-subscription.jar
+        * 拷贝wx-subscription-web/target/wx-subscription.jar, wx-subscription-web/target/config文件夹到服务器（config文件夹必须和jar在同一目录）
+        * 修改config文件中的数据库连接：application.properties spring.datasource.xxx的值
+        * 进入jar和config所在目录：cd wx-subscription-web/target，运行java -jar wx-subscription.jar
     * docker中运行
         * 导入脚本
             * 首次运行：scripts/sql/init.sql
             * 升级：scripts/sql/vx.x.x~vx.x.x
-        * 修改数据库连接：application.properties spring.datasource.xxx的值
         * 打包：mvn clean package -U
-        * docker build -t nuptaxin/wx-subscription:v1.5.1 .
+        * 拷贝wx-subscription-web/target/wx-subscription.jar, wx-subscription-web/target/config文件夹到服务器（config文件夹必须和jar在同一目录）
+        * 修改config文件中的数据库连接：application.properties spring.datasource.xxx的值
+        * 进入jar和config所在目录：cd wx-subscription-web/target, 构建docker镜像：docker build -t nuptaxin/wx-subscription:v1.5.1 .
         * 定义wx-subscription-rs.yaml
             ```yaml
              apiVersion: apps/v1
