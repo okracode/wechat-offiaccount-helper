@@ -42,7 +42,7 @@ public class ApplicationEventListenerTest {
                 .build();
         applicationContext.publishEvent(wechatMsg);
         TimeUnit.SECONDS.sleep(3);
-        WechatMsg resultMsg = textMessageExtDao.selectOneRecvMsg();
+        WechatMsg resultMsg = textMessageExtDao.selectOneMsgByCondition(wechatMsg);
         Assert.assertEquals(wechatMsg.getFromUserName(), resultMsg.getFromUserName());
         Assert.assertEquals(wechatMsg.getContent(), resultMsg.getContent());
     }

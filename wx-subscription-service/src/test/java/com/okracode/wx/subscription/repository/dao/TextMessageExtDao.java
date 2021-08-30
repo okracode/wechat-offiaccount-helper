@@ -11,6 +11,6 @@ import org.apache.ibatis.annotations.Select;
  * @date 2021/8/30
  */
 public interface TextMessageExtDao {
-    @Select("select * from wechat_msg")
-    WechatMsg selectOneRecvMsg();
+    @Select("select * from wechat_msg where fromUserName = #{fromUserName}")
+    WechatMsg selectOneMsgByCondition(WechatMsg wechatMsg);
 }
