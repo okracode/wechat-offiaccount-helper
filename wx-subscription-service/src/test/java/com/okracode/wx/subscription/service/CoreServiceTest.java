@@ -45,4 +45,21 @@ public class CoreServiceTest {
         Assert.assertEquals(result.getFromUserName(), resultMsg.getFromUserName());
         Assert.assertEquals(result.getContent(), resultMsg.getContent());
     }
+
+    @Test
+    public void testHandle_weather() throws InterruptedException {
+        WxXmlMessage wx = new WxXmlMessage();
+        wx.setToUserName(RandomStringUtils.randomAlphabetic(10));
+        wx.setFromUserName(RandomStringUtils.randomAlphabetic(10));
+        wx.setCreateTime(new Date().getTime() / 1000);
+        wx.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
+        wx.setContent("南京天气");
+        wx.setMsgId(Long.valueOf(RandomStringUtils.randomNumeric(10)));
+        WxXmlOutTextMessage result = (WxXmlOutTextMessage) coreService.handle(wx, Maps.newHashMap(), null);
+        TimeUnit.SECONDS.sleep(3);
+        WechatMsg resultMsg = textMessageExtDao
+                .selectOneMsgByCondition(WechatMsg.builder().fromUserName(wx.getToUserName()).build());
+        Assert.assertEquals(result.getFromUserName(), resultMsg.getFromUserName());
+        Assert.assertEquals(result.getContent(), resultMsg.getContent());
+    }
 }
