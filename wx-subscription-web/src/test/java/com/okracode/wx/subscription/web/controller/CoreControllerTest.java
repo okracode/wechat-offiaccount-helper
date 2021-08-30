@@ -33,33 +33,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class CoreControllerTest {
 
-    private static final int DB_PORT = 3309;
-    private static DB db;
-
-    @BeforeClass
-    public static void beforeClass() throws Exception {
-        DBConfigurationBuilder builder = DBConfigurationBuilder.newBuilder();
-        builder.setPort(DB_PORT);
-        builder.addArg("--user=root");
-        builder.addArg("--enable-lower_case_table_names");
-        db = DB.newEmbeddedDB(builder.build());
-        db.start();
-        db.source("sql/init.sql");
-        try {
-            // 读取城市编码文件
-            ParseJson.parseJsonFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @AfterClass
-    public static void afterClass() throws ManagedProcessException, InterruptedException {
-        // 有异步event，等待5s再关闭db
-        TimeUnit.SECONDS.sleep(5);
-        db.stop();
-    }
-
     @Test
     public void testDoGet() throws IOException {
         String signature = "859ca01fc42225b90a8024aadce883a8be5f4820";
@@ -77,7 +50,7 @@ public class CoreControllerTest {
     }
 
     @Test
-    public void testDoPost() throws IOException {
+    public void testDoPost() throws IOException, InterruptedException {
         String url = "http://localhost:8080/wechat.do";
         HttpPost httpPost = new HttpPost(url);
         //装填参数
@@ -98,6 +71,7 @@ public class CoreControllerTest {
         HttpResponse response = HttpClients.createDefault().execute(httpPost);
         assertEquals(200, response.getStatusLine().getStatusCode());
         String resEchoStr = IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8);
+        TimeUnit.SECONDS.sleep(3);
         assertTrue(StringUtils.contains(resEchoStr, "城市:南京"));
     }
 }

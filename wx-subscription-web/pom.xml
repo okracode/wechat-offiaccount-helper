@@ -46,7 +46,7 @@
         <version>2.19.1</version>
         <configuration>
           <includes>
-            <include>com.okracode.wx.subscription.web.controller.CoreControllerTest.java</include>
+            <include>com.okracode.wx.subscription.web.WxSubscriptionServiceWebTests.java</include>
           </includes>
         </configuration>
       </plugin>
