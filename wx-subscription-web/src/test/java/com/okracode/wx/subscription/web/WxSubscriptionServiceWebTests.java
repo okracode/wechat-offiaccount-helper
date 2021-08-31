@@ -1,27 +1,20 @@
-package com.okracode.wx.subscription.service;
+package com.okracode.wx.subscription.web;
 
 import ch.vorburger.exec.ManagedProcessException;
 import ch.vorburger.mariadb4j.DB;
 import ch.vorburger.mariadb4j.DBConfigurationBuilder;
-import com.okracode.wx.subscription.service.chatbot.impl.QingyunkeApiServiceImplTest;
-import com.okracode.wx.subscription.service.event.ApplicationEventListenerTest;
-import com.okracode.wx.subscription.service.util.ParseJsonTest;
+import com.okracode.wx.subscription.service.util.ParseJson;
+import com.okracode.wx.subscription.web.controller.CoreControllerTest;
+import java.io.IOException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
-import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 
 @RunWith(Suite.class)
-@SuiteClasses(value = {ParseJsonTest.class, ApplicationEventListenerTest.class, CoreServiceTest.class,
-        QingyunkeApiServiceImplTest.class})
-@SpringBootApplication
-@ComponentScan("com.okracode.wx.subscription")
-@MapperScan("com.okracode.wx.subscription.repository.dao")
-class WxSubscriptionServiceApplicationTests {
+@SuiteClasses(value = {CoreControllerTest.class})
+class WxSubscriptionServiceWebTests {
 
     private static final int DB_PORT = 3309;
     private static DB db;
@@ -35,6 +28,12 @@ class WxSubscriptionServiceApplicationTests {
         db = DB.newEmbeddedDB(builder.build());
         db.start();
         db.source("sql/init.sql");
+        try {
+            // 读取城市编码文件
+            ParseJson.parseJsonFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @AfterClass

@@ -1,7 +1,6 @@
 package com.okracode.wx.subscription.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -13,8 +12,8 @@ import com.okracode.wx.subscription.repository.entity.send.Article;
 import com.okracode.wx.subscription.repository.entity.send.SendNewsMessage;
 import com.okracode.wx.subscription.repository.entity.send.SendTextMessage;
 import com.okracode.wx.subscription.service.chatbot.ChatBotApiService;
-import com.okracode.wx.subscription.service.util.MessageUtil;
 import com.okracode.wx.subscription.service.util.ParseJson;
+import com.soecode.wxtools.api.WxConsts;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -24,7 +23,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -74,7 +72,6 @@ public class TextService {
         } catch (Exception e) {
             log.error("无法将数据加入到消息队列中", e);
         }
-        String respMessage = null;
         Integer chatBotType = null;
         String recvContent = recvTextMessage.getContent();
         // 回复文本消息
@@ -82,7 +79,7 @@ public class TextService {
         textMessage.setToUserName(recvTextMessage.getFromUserName());
         textMessage.setFromUserName(recvTextMessage.getToUserName());
         textMessage.setCreateTime(new Date());
-        textMessage.setMsgType(MessageUtil.SEND_MESSAGE_TYPE_TEXT);
+        textMessage.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
         textMessage.setFuncFlag(0);
         textMessage.setContent("您发送的是文本消息！");
 
@@ -92,7 +89,7 @@ public class TextService {
         newsMessage.setToUserName(recvTextMessage.getFromUserName());
         newsMessage.setFromUserName(recvTextMessage.getToUserName());
         newsMessage.setCreateTime(new Date());
-        newsMessage.setMsgType(MessageUtil.SEND_MESSAGE_TYPE_NEWS);
+        newsMessage.setMsgType(WxConsts.CUSTOM_MSG_NEWS);
         newsMessage.setFuncFlag(0);
 
         List<Article> articleList = new ArrayList<Article>();
@@ -100,7 +97,6 @@ public class TextService {
         // 判断消息内容是否为单个QQ表情，如果是则原样回复
         if (isQqFace(recvContent)) {
             textMessage.setContent(recvContent);
-            respMessage = MessageUtil.textMessageToXml(textMessage);
         }
         // 判断消息内容是否为请求帮助菜单
         else if (isHelp(recvContent)) {
@@ -118,7 +114,6 @@ public class TextService {
             buffer.append("更多精彩内容" + emoji(0x1F47F)
                     + "请访问<a href=\"http://www.ashin.ren\">阿信的博客</a>");
             textMessage.setContent(buffer.toString());
-            respMessage = MessageUtil.textMessageToXml(textMessage);
         }
         // 判断是否请求天气预报
         else if (StringUtils.endsWith(recvContent, "天气")) {
@@ -145,7 +140,6 @@ public class TextService {
                         + "\t" + "高温:" + map2.get("temp2") + "\t" + "天气:" + map2.get("weather")
                         + "\t" + "发布时间:" + map2.get("ptime"));
             }
-            respMessage = MessageUtil.textMessageToXml(textMessage);
         }
 
         // 单图文消息
@@ -160,8 +154,6 @@ public class TextService {
             newsMessage.setArticleCount(articleList.size());
             // 设置图文消息包含的图文集合
             newsMessage.setArticles(articleList);
-            // 将图文消息对象转换成xml字符串
-            respMessage = MessageUtil.newsMessageToXml(newsMessage);
         }
         // 单图文消息---不含图片
         else if ("2".equals(recvContent)) {
@@ -177,7 +169,6 @@ public class TextService {
             articleList.add(article);
             newsMessage.setArticleCount(articleList.size());
             newsMessage.setArticles(articleList);
-            respMessage = MessageUtil.newsMessageToXml(newsMessage);
         }
         // 多图文消息
         else if ("3".equals(recvContent)) {
@@ -204,7 +195,6 @@ public class TextService {
             articleList.add(article3);
             newsMessage.setArticleCount(articleList.size());
             newsMessage.setArticles(articleList);
-            respMessage = MessageUtil.newsMessageToXml(newsMessage);
         }
         // 多图文消息---首条消息不含图片
         else if ("4".equals(recvContent)) {
@@ -239,7 +229,6 @@ public class TextService {
             articleList.add(article4);
             newsMessage.setArticleCount(articleList.size());
             newsMessage.setArticles(articleList);
-            respMessage = MessageUtil.newsMessageToXml(newsMessage);
         }
         // 多图文消息---最后一条消息不含图片
         else if ("5".equals(recvContent)) {
@@ -267,7 +256,6 @@ public class TextService {
             articleList.add(article3);
             newsMessage.setArticleCount(articleList.size());
             newsMessage.setArticles(articleList);
-            respMessage = MessageUtil.newsMessageToXml(newsMessage);
         } else {
             // 如果都不符合使用默认的转换,则直接调用图灵机器人完成
             String result = null;
@@ -296,7 +284,7 @@ public class TextService {
                     .fromUserName(recvTextMessage.getToUserName())
                     .msgTime(textMessage.getCreateTime())
                     .chatBotType(chatBotType)
-                    .msgType(MessageUtil.SEND_MESSAGE_TYPE_TEXT)
+                    .msgType(WxConsts.CUSTOM_MSG_TEXT)
                     .content(textMessage.getContent())
                     .funcFlag(null)
                     .msgId(recvTextMessage.getMsgId())

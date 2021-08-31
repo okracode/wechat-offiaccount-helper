@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.okracode.wx</groupId>
     <artifactId>wx-subscription</artifactId>
-    <version>1.5.0</version>
+    <version>1.5.1</version>
   </parent>
   <artifactId>wx-subscription-web</artifactId>
   <packaging>jar</packaging>
@@ -46,9 +46,37 @@
         <version>2.19.1</version>
         <configuration>
           <includes>
-            <include>com.okracode.wx.subscription.web.controller.CoreControllerTest.java</include>
+            <include>com.okracode.wx.subscription.web.WxSubscriptionServiceWebTests.java</include>
           </includes>
         </configuration>
+      </plugin>
+      <!-- maven资源文件复制插件 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <!-- here the phase you need -->
+            <phase>package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/config</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>src/main/resources</directory>
+                  <includes>
+                    <include>*.*</include>
+                  </includes>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+              <encoding>UTF-8</encoding>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

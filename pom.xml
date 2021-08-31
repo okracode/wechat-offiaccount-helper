@@ -10,7 +10,7 @@
   <groupId>com.okracode.wx</groupId>
   <artifactId>wx-subscription</artifactId>
   <packaging>pom</packaging>
-  <version>1.5.0</version>
+  <version>1.5.1</version>
   <name>wechat subscription app</name>
   <url>okracode.com</url>
 
@@ -160,7 +160,6 @@
         <configuration>
           <excludes>
             <exclude>com/okracode/wx/subscription/repository/entity/**</exclude>
-            <exclude>com/okracode/wx/subscription/service/**</exclude>
             <exclude>com/okracode/wx/subscription/web/controller/HelpDocHandler.class</exclude>
             <exclude>com/okracode/wx/subscription/web/controller/Menu.class</exclude>
             <exclude>com/okracode/wx/subscription/web/controller/MenuKey.class</exclude>
@@ -193,7 +192,7 @@
                 <limit implementation="org.jacoco.report.check.Limit">
                   <counter>CLASS</counter>
                   <value>MISSEDCOUNT</value>
-                  <maximum>10</maximum>
+                  <maximum>3</maximum>
                 </limit>
               </limits>
             </rule>
