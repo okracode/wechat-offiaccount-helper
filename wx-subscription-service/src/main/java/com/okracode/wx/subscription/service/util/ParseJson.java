@@ -1,11 +1,12 @@
 package com.okracode.wx.subscription.service.util;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.Maps;
+import com.okracode.wx.subscription.common.JsonUtil;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -40,16 +41,14 @@ public class ParseJson {
         }
         // 开始解析文件
         if (jsonStr != null) {
-            JSONObject jsonObj = JSON.parseObject(jsonStr);
-            JSONArray cityObj = jsonObj.getJSONArray("城市代码");
-            for (Object obj : cityObj) {
-                JSONObject jObj = (JSONObject) obj;
-                String privinceObj = jObj.getString("省");
-                JSONArray cObjs = jObj.getJSONArray("市");
-                for (Object cObj : cObjs) {
-                    JSONObject cObj1 = (JSONObject) cObj;
-                    String cityName = cObj1.getString("市名");
-                    String cityCode = cObj1.getString("编码");
+            JsonNode jsonObj = JsonUtil.getNode(jsonStr);
+            ArrayNode cityObj = (ArrayNode)jsonObj.findValue("城市代码");
+            for (JsonNode jObj : cityObj) {
+                String privinceObj = jObj.get("省").asText();
+                ArrayNode cObjs = (ArrayNode)jObj.findValue("市");
+                for (JsonNode cObj1 : cObjs) {
+                    String cityName = cObj1.get("市名").asText();
+                    String cityCode = cObj1.get("编码").asText();
                     if (cityCodeMap.containsKey(cityName)) {
                         log.warn("发现相同的城市名：" + cityName + "最终存储的城市为:" + privinceObj + "."
                                 + cityName);

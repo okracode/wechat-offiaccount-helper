@@ -7,6 +7,7 @@ package com.okracode.wx.subscription.web.controller;
  * @version 1.0.0
  * @date 2021/8/17
  */
+@Deprecated
 public class ResponseConst {
     public static final String HELP = "\uD83D\uDC4F欢迎使用[彬彬推送小助手]\n\n功能使用方式如下：\n\n" +
             "[配置] -- 获取当前用户配置信息 \n" +

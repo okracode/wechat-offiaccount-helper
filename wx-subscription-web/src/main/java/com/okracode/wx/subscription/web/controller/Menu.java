@@ -17,6 +17,7 @@ import java.util.List;
  * @version 1.0.0
  * @date 2021/8/17
  */
+@Deprecated
 public class Menu {
 
     public static void main(String[] args) {

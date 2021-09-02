@@ -14,6 +14,7 @@ import java.util.Map;
  * @version 1.0.0
  * @date 2021/8/17
  */
+@Deprecated
 public class HelpDocHandler implements WxMessageHandler {
 
     private static HelpDocHandler instance = null;
