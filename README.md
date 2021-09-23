@@ -55,8 +55,9 @@
             * 升级：scripts/sql/vx.x.x~vx.x.x
         * 打包：mvn clean package -U
         * 拷贝wechat-offiaccount-helper-web/target/wechat-offiaccount-helper.jar, wechat-offiaccount-helper-web/target/config文件夹到服务器（config文件夹必须和jar在同一目录）
+        * 拷贝Dockerfile到服务器（Dockerfile文件夹必须和jar、config在同一目录）
         * 修改config文件中的数据库连接：application.properties spring.datasource.xxx的值
-        * 进入jar和config所在目录：cd wechat-offiaccount-helper-web/target, 构建docker镜像：docker build -t nuptaxin/wechat-offiaccount-helper:v1.6.0 .
+        * 进入jar和config所在目录, 构建docker镜像：docker build -t okracode/wechat-offiaccount-helper:v1.6.0 .
         * 定义wechat-offiaccount-helper-rs.yaml
             ```yaml
              apiVersion: apps/v1
@@ -75,7 +76,7 @@
                  spec:
                    containers:
                    - name: wechat-offiaccount-helper
-                     image: nuptaxin/wechat-offiaccount-helper:v1.6.0
+                     image: okracode/wechat-offiaccount-helper:v1.6.0
             ```
         * kubectl apply -f wechat-offiaccount-helper-rs.yaml
         * 查看pod使用的image版本号：kubectl describe po wechat-offiaccount-helper-rs-xxxxx
@@ -96,7 +97,7 @@
                     app: wechat-offiaccount-helper
             ```
         * 运行kubectl create -f wechat-offiaccount-helper-svc.yaml
-        * ingress添加url映射
+        * ingress添加url映射okra-code-ing.yaml
             ```yaml
             apiVersion: networking.k8s.io/v1
             kind: Ingress
