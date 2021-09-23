@@ -4,14 +4,14 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.okracode.wx</groupId>
-    <artifactId>wx-subscription</artifactId>
+    <groupId>com.okracode.wechat</groupId>
+    <artifactId>wechat-offiaccount-helper</artifactId>
     <version>1.5.1</version>
   </parent>
-  <artifactId>wx-subscription-web</artifactId>
+  <artifactId>wechat-offiaccount-helper-web</artifactId>
   <packaging>jar</packaging>
-  <name>wx-subscription-web</name>
-  <description>wechat subscription entrance</description>
+  <name>wechat-offiaccount-helper-web</name>
+  <description>wechat offiaccount helper entrance</description>
 
   <properties>
     <java.version>1.8</java.version>
@@ -20,8 +20,8 @@
   </properties>
   <dependencies>
     <dependency>
-      <groupId>com.okracode.wx</groupId>
-      <artifactId>wx-subscription-service</artifactId>
+      <groupId>com.okracode.wechat</groupId>
+      <artifactId>wechat-offiaccount-helper-service</artifactId>
     </dependency>
   </dependencies>
 
@@ -31,7 +31,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
-          <finalName>wx-subscription</finalName>
+          <finalName>wechat-offiaccount-helper</finalName>
           <excludes>
             <exclude>
               <groupId>org.projectlombok</groupId>

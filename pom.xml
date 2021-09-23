@@ -7,18 +7,18 @@
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>2.5.3</version>
   </parent>
-  <groupId>com.okracode.wx</groupId>
-  <artifactId>wx-subscription</artifactId>
+  <groupId>com.okracode.wechat</groupId>
+  <artifactId>wechat-offiaccount-helper</artifactId>
   <packaging>pom</packaging>
   <version>1.5.1</version>
-  <name>wechat subscription app</name>
+  <name>wechat official accounts helper</name>
   <url>okracode.com</url>
 
   <modules>
-    <module>wx-subscription-common</module>
-    <module>wx-subscription-repository</module>
-    <module>wx-subscription-service</module>
-    <module>wx-subscription-web</module>
+    <module>wechat-offiaccount-helper-common</module>
+    <module>wechat-offiaccount-helper-repository</module>
+    <module>wechat-offiaccount-helper-service</module>
+    <module>wechat-offiaccount-helper-web</module>
   </modules>
 
   <properties>
@@ -28,23 +28,23 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>com.okracode.wx</groupId>
-        <artifactId>wx-subscription-common</artifactId>
+        <groupId>com.okracode.wechat</groupId>
+        <artifactId>wechat-offiaccount-helper-common</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.okracode.wx</groupId>
-        <artifactId>wx-subscription-repository</artifactId>
+        <groupId>com.okracode.wechat</groupId>
+        <artifactId>wechat-offiaccount-helper-repository</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.okracode.wx</groupId>
-        <artifactId>wx-subscription-service</artifactId>
+        <groupId>com.okracode.wechat</groupId>
+        <artifactId>wechat-offiaccount-helper-service</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.okracode.wx</groupId>
-        <artifactId>wx-subscription-web</artifactId>
+        <groupId>com.okracode.wechat</groupId>
+        <artifactId>wechat-offiaccount-helper-web</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

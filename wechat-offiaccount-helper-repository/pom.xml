@@ -4,18 +4,18 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.okracode.wx</groupId>
-    <artifactId>wx-subscription</artifactId>
+    <groupId>com.okracode.wechat</groupId>
+    <artifactId>wechat-offiaccount-helper</artifactId>
     <version>1.5.1</version>
   </parent>
-  <artifactId>wx-subscription-repository</artifactId>
-  <name>wx-subscription-repository</name>
-  <description>repo</description>
+  <artifactId>wechat-offiaccount-helper-repository</artifactId>
+  <name>wechat-offiaccount-helper-repository</name>
+  <description>repo module</description>
 
   <dependencies>
     <dependency>
-      <groupId>com.okracode.wx</groupId>
-      <artifactId>wx-subscription-common</artifactId>
+      <groupId>com.okracode.wechat</groupId>
+      <artifactId>wechat-offiaccount-helper-common</artifactId>
     </dependency>
     <dependency>
       <groupId>org.mybatis.spring.boot</groupId>

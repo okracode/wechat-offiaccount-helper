@@ -4,13 +4,13 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.okracode.wx</groupId>
-    <artifactId>wx-subscription</artifactId>
+    <groupId>com.okracode.wechat</groupId>
+    <artifactId>wechat-offiaccount-helper</artifactId>
     <version>1.5.1</version>
   </parent>
-  <artifactId>wx-subscription-common</artifactId>
-  <name>wx-subscription-common</name>
-  <description>common class 4 wx subscription</description>
+  <artifactId>wechat-offiaccount-helper-common</artifactId>
+  <name>wechat-offiaccount-helper-common</name>
+  <description>common module</description>
 
   <dependencies>
     <dependency>
