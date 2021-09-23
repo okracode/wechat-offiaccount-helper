@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.okracode.wechat</groupId>
     <artifactId>wechat-offiaccount-helper</artifactId>
-    <version>1.6.0</version>
+    <version>1.7.0</version>
   </parent>
   <artifactId>wechat-offiaccount-helper-service</artifactId>
   <name>wechat-offiaccount-helper-service</name>
