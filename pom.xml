@@ -10,7 +10,7 @@
   <groupId>com.okracode.wechat</groupId>
   <artifactId>wechat-offiaccount-helper</artifactId>
   <packaging>pom</packaging>
-  <version>1.5.1</version>
+  <version>1.6.0</version>
   <name>wechat official accounts helper</name>
   <url>okracode.com</url>
 
