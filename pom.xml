@@ -159,11 +159,11 @@
         <!-- Configuration 里面写配置信息 -->
         <configuration>
           <excludes>
-            <exclude>com/okracode/wx/subscription/repository/entity/**</exclude>
-            <exclude>com/okracode/wx/subscription/web/controller/HelpDocHandler.class</exclude>
-            <exclude>com/okracode/wx/subscription/web/controller/Menu.class</exclude>
-            <exclude>com/okracode/wx/subscription/web/controller/MenuKey.class</exclude>
-            <exclude>com/okracode/wx/subscription/web/controller/ResponseConst.class</exclude>
+            <exclude>com/okracode/wechat/offiaccount/helper/repository/entity/**</exclude>
+            <exclude>com/okracode/wechat/offiaccount/helper/web/controller/HelpDocHandler.class</exclude>
+            <exclude>com/okracode/wechat/offiaccount/helper/web/controller/Menu.class</exclude>
+            <exclude>com/okracode/wechat/offiaccount/helper/web/controller/MenuKey.class</exclude>
+            <exclude>com/okracode/wechat/offiaccount/helper/web/controller/ResponseConst.class</exclude>
           </excludes>
           <!-- rules里面指定覆盖规则 -->
           <rules>

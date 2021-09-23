@@ -28,7 +28,7 @@
         <version>2.19.1</version>
         <configuration>
           <includes>
-            <include>com.okracode.wx.subscription.common.WxSubscriptionCommonApplicationTests.java</include>
+            <include>com.okracode.wechat.offiaccount.helper.common.WxSubscriptionCommonApplicationTests.java</include>
           </includes>
         </configuration>
       </plugin>
