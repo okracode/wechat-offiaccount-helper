@@ -1,4 +1,4 @@
 FROM openjdk:8-jdk-alpine
-ADD wx-subscription.jar .
+ADD wechat-offiaccount-helper.jar .
 ADD config/ config/
-ENTRYPOINT ["java", "-jar", "wx-subscription.jar"]
+ENTRYPOINT ["java", "-jar", "wechat-offiaccount-helper.jar"]
