@@ -17,6 +17,18 @@
       <groupId>com.okracode.wechat</groupId>
       <artifactId>wechat-offiaccount-helper-repository</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.okracode.wx</groupId>
+      <artifactId>wx-tools</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
