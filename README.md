@@ -1,4 +1,4 @@
-# 微信订阅号后台
+# 微信公众号助手
 
 ## 技术栈
 
@@ -28,7 +28,7 @@
             * 升级：scripts/sql/vx.x.x~vx.x.x
         * 修改数据库连接：application.properties spring.datasource.xxx的值
         * 配置wx.properties中的wx.token值
-        * 右键类 com.okracode.wx.subscription.web.WxSubscriptionWebApplication 运行(或Debug)
+        * 右键类 com.okracode.wechat.offiaccount.helper.web.WxSubscriptionWebApplication 运行(或Debug)
         * 访问localhost:8080，看到Hello world!页面表示本地运行成功
     * 使用Ngrok做本地远程域名映射[目前微信已经封了此域名]
         * 下载安装[Ngrok](https://ngrok.com/download)
@@ -46,57 +46,58 @@
             * 首次运行：scripts/sql/init.sql
             * 升级：scripts/sql/vx.x.x~vx.x.x
         * 打包：mvn clean package -U
-        * 拷贝wx-subscription-web/target/wx-subscription.jar, wx-subscription-web/target/config文件夹到服务器（config文件夹必须和jar在同一目录）
+        * 拷贝wechat-offiaccount-helper-web/target/wechat-offiaccount-helper.jar, wechat-offiaccount-helper-web/target/config文件夹到服务器（config文件夹必须和jar在同一目录）
         * 修改config文件中的数据库连接：application.properties spring.datasource.xxx的值
-        * 进入jar和config所在目录：cd wx-subscription-web/target，运行java -jar wx-subscription.jar
+        * 进入jar和config所在目录：cd wechat-offiaccount-helper-web/target，运行java -jar wechat-offiaccount-helper.jar
     * docker中运行
         * 导入脚本
             * 首次运行：scripts/sql/init.sql
             * 升级：scripts/sql/vx.x.x~vx.x.x
         * 打包：mvn clean package -U
-        * 拷贝wx-subscription-web/target/wx-subscription.jar, wx-subscription-web/target/config文件夹到服务器（config文件夹必须和jar在同一目录）
+        * 拷贝wechat-offiaccount-helper-web/target/wechat-offiaccount-helper.jar, wechat-offiaccount-helper-web/target/config文件夹到服务器（config文件夹必须和jar在同一目录）
+        * 拷贝Dockerfile到服务器（Dockerfile文件夹必须和jar、config在同一目录）
         * 修改config文件中的数据库连接：application.properties spring.datasource.xxx的值
-        * 进入jar和config所在目录：cd wx-subscription-web/target, 构建docker镜像：docker build -t nuptaxin/wx-subscription:v1.5.1 .
-        * 定义wx-subscription-rs.yaml
+        * 进入jar和config所在目录, 构建docker镜像：docker build -t okracode/wechat-offiaccount-helper:v1.7.0 .
+        * 定义wechat-offiaccount-helper-rs.yaml
             ```yaml
              apiVersion: apps/v1
              kind: ReplicaSet
              metadata:
-               name: wx-subscription-rs
+               name: wechat-offiaccount-helper-rs
              spec:
                replicas: 1
                selector:
                  matchLabels:
-                   app: wx-subscription
+                   app: wechat-offiaccount-helper
                template:
                  metadata:
                    labels:
-                     app: wx-subscription
+                     app: wechat-offiaccount-helper
                  spec:
                    containers:
-                   - name: wx-subscription
-                     image: nuptaxin/wx-subscription:v1.5.1
+                   - name: wechat-offiaccount-helper
+                     image: okracode/wechat-offiaccount-helper:v1.7.0
             ```
-        * kubectl apply -f wx-subscription-rs.yaml
-        * 查看pod使用的image版本号：kubectl describe po wx-subscription-rs-xxxxx
+        * kubectl apply -f wechat-offiaccount-helper-rs.yaml
+        * 查看pod使用的image版本号：kubectl describe po wechat-offiaccount-helper-rs-xxxxx
         * 测试访问
-            * 端口映射临时访问（需要开放对应targetPort的防火墙）：kubectl port-forward rs/wx-subscription-rs 8080:8080 --address 0.0.0.0
+            * 端口映射临时访问（需要开放对应targetPort的防火墙）：kubectl port-forward rs/wechat-offiaccount-helper-rs 8080:8080 --address 0.0.0.0
             * 访问站点：http://49.\*.\*.155:8080
-        * 定义wx-subscription-svc.yaml
+        * 定义wechat-offiaccount-helper-svc.yaml
             ```yaml
                 apiVersion: v1
                 kind: Service
                 metadata:
-                  name: wx-subscription-svc
+                  name: wechat-offiaccount-helper-svc
                 spec:
                   ports:
                   - port: 80
                     targetPort: 8080
                   selector:
-                    app: wx-subscription
+                    app: wechat-offiaccount-helper
             ```
-        * 运行kubectl create -f wx-subscription-svc.yaml
-        * ingress添加url映射
+        * 运行kubectl create -f wechat-offiaccount-helper-svc.yaml
+        * ingress添加url映射okra-code-ing.yaml
             ```yaml
             apiVersion: networking.k8s.io/v1
             kind: Ingress
@@ -120,7 +121,7 @@
                     pathType: Prefix
                     backend:
                       service:
-                        name: wx-subscription-svc
+                        name: wechat-offiaccount-helper-svc
                         port:
                           number: 80
             ```
@@ -130,9 +131,9 @@
 ## 日志查看
 * 生成的日志在logs目录
 * docker中查看日志
-    * kubectl exec -it wx-subscription-rs-xxx sh
+    * kubectl exec -it wechat-offiaccount-helper-rs-xxx sh
     * cd /logs
-    * tail -f wx-subscription.log
+    * tail -f wechat-offiaccount-helper.log
 ## 订阅号配置
 * 进入订阅号后台，找到基本配置目录，点击服务器配置->修改配置
     * URL：填写站点部署的url/wechat.do（本地调试填写临时子域名）
@@ -142,7 +143,7 @@
 ## 版本号升级
 * 使用mvn命令进行升级
     * 升级版本号
-      > mvn versions:set -DgenerateBackupPoms=false -DnewVersion=1.5.1
+      > mvn versions:set -DgenerateBackupPoms=false -DnewVersion=1.7.0
 * 初始化sql版本升级
     * 如果是第一次安装使用，导入[init.sql](scripts/sql/init.sql)即可
     * 如果是从已有版本升级到最新版本[注：不支持跨版本平滑升级]，由版本号从小到大依次执行[upgrade.sql](scripts/sql)
@@ -155,6 +156,6 @@
     * 标题为UpgradeLog中的三级标题
     * 描述为UpgradeLog三级标题下的列表
 * 同步gitee
-    > https://gitee.com/nuptaxin/wx-subscription
+    > https://gitee.com/nuptaxin/wechat-offiaccount-helper
 * 修改docker命令与k8s脚本版本号
                   

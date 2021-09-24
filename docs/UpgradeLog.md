@@ -44,3 +44,11 @@
 ### 单元测试
 `v1.5.1`
 - [x] 单元测试覆盖率达到50%+
+
+### 应用重命名
+`v1.6.0`
+- [x] 修改应用名wx-subscription->wechat-offiaccount-helper
+
+### 日志框架升级
+`v1.7.0`
+- [x] 日志框架log4j升级为log4j2
