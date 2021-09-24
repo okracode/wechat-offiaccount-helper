@@ -100,6 +100,11 @@
         <artifactId>commons-lang</artifactId>
         <version>2.6</version>
       </dependency>
+      <dependency>
+        <groupId>com.okracode.qconfig</groupId>
+        <artifactId>qconfig-client</artifactId>
+        <version>0.5.0-SNAPSHOT-1.0.1</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -124,11 +129,6 @@
       <groupId>org.craftercms.mariaDB4j</groupId>
       <artifactId>mariaDB4j</artifactId>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.okracode.qconfig</groupId>
-      <artifactId>qconfig-client</artifactId>
-      <version>0.5.0-SNAPSHOT-1.0.1</version>
     </dependency>
   </dependencies>
 
