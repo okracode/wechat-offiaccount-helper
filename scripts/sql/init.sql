@@ -20,7 +20,7 @@ CREATE TABLE `wechat_msg`
     `funcflag`      varchar(255)          DEFAULT NULL,
     `msgid`         varchar(255)          DEFAULT NULL,
     `create_time`   datetime(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '数据创建时间',
-    `update_time`   datetime(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '数据修改时间'
+    `update_time`   datetime(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '数据修改时间',
         PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
