@@ -57,7 +57,7 @@
         * 拷贝wechat-offiaccount-helper-web/target/wechat-offiaccount-helper.jar, wechat-offiaccount-helper-web/target/config文件夹到服务器（config文件夹必须和jar在同一目录）
         * 拷贝Dockerfile到服务器（Dockerfile文件夹必须和jar、config在同一目录）
         * 修改config文件中的数据库连接：application.properties spring.datasource.xxx的值
-        * 进入jar和config所在目录, 构建docker镜像：docker build -t okracode/wechat-offiaccount-helper:v1.7.0 .
+        * 进入jar和config所在目录, 构建docker镜像：docker build -t okracode/wechat-offiaccount-helper:v1.7.1 .
         * 定义wechat-offiaccount-helper-rs.yaml
             ```yaml
              apiVersion: apps/v1
@@ -76,7 +76,7 @@
                  spec:
                    containers:
                    - name: wechat-offiaccount-helper
-                     image: okracode/wechat-offiaccount-helper:v1.7.0
+                     image: okracode/wechat-offiaccount-helper:v1.7.1
             ```
         * kubectl apply -f wechat-offiaccount-helper-rs.yaml
         * 查看pod使用的image版本号：kubectl describe po wechat-offiaccount-helper-rs-xxxxx
@@ -143,7 +143,7 @@
 ## 版本号升级
 * 使用mvn命令进行升级
     * 升级版本号
-      > mvn versions:set -DgenerateBackupPoms=false -DnewVersion=1.7.0
+      > mvn versions:set -DgenerateBackupPoms=false -DnewVersion=1.7.1
 * 初始化sql版本升级
     * 如果是第一次安装使用，导入[init.sql](scripts/sql/init.sql)即可
     * 如果是从已有版本升级到最新版本[注：不支持跨版本平滑升级]，由版本号从小到大依次执行[upgrade.sql](scripts/sql)
