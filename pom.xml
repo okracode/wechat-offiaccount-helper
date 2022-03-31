@@ -22,7 +22,7 @@
   </modules>
 
   <properties>
-    <springframework.boot.version>2.5.3</springframework.boot.version>
+    <springframework.boot.version>2.5.12</springframework.boot.version>
   </properties>
 
   <dependencyManagement>
