@@ -2,6 +2,8 @@ package com.okracode.wechat.offiaccount.helper.repository.dao;
 
 import com.okracode.wechat.offiaccount.helper.repository.entity.WechatMsg;
 import java.util.Date;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
@@ -36,5 +38,23 @@ public class TextMessageDaoTest {
         WechatMsg resultMsg = textMessageExtDao.selectOneRecvMsg();
         Assert.assertEquals(wechatMsg.getFromUserName(), resultMsg.getFromUserName());
         Assert.assertEquals(wechatMsg.getContent(), resultMsg.getContent());
+    }
+
+    @Test
+    public void testInsertOneRecvMsg1() throws InterruptedException {
+        CountDownLatch latch=new CountDownLatch(2);
+        new Thread(()->{
+            for (int i = 0; i <= 100; i+=2) {
+                textMessageExtDao.selectOneRecvMsg1(i);
+            }
+            latch.countDown();
+        }).start();
+        new Thread(()->{
+            for (int i = 1; i <= 100; i+=2) {
+                textMessageExtDao.selectOneRecvMsg1(i);
+            }
+            latch.countDown();
+        }).start();
+        latch.await();
     }
 }

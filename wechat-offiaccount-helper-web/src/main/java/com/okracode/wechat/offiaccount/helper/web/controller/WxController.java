@@ -1,5 +1,6 @@
 package com.okracode.wechat.offiaccount.helper.web.controller;
 
+import com.okracode.wechat.offiaccount.helper.repository.dao.TextMessageDao;
 import com.okracode.wechat.offiaccount.helper.service.CoreService;
 import com.soecode.wxtools.api.IService;
 import com.soecode.wxtools.api.WxMessageRouter;
@@ -9,6 +10,7 @@ import com.soecode.wxtools.bean.WxXmlOutMessage;
 import com.soecode.wxtools.util.xml.XStreamTransformer;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.concurrent.CountDownLatch;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,9 +35,11 @@ public class WxController {
     private final IService iService = new WxService();
     @Resource
     private CoreService coreService;
+    @Resource
+    private TextMessageDao textMessageDao;
 
     @GetMapping
-    public String check(String signature, String timestamp, String nonce, String echostr) {
+    public String check(String signature, String timestamp, String nonce, String echostr) throws InterruptedException {
         log.info("check param signatrue:{}, timestamp:{}, nonce:{}, echostr:{}", signature, timestamp, nonce, echostr);
         if (iService.checkSignature(signature, timestamp, nonce, echostr)) {
             log.info("check success");
@@ -46,10 +50,24 @@ public class WxController {
     }
 
     @PostMapping
-    public void handle(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void handle(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, InterruptedException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
+
+        CountDownLatch latch=new CountDownLatch(10);
+        for (int j = 0; j < 100; j++) {
+            new Thread(()->{
+
+                for (int i = 0; i <= 100; i++) {
+                    textMessageDao.selectOneRecvMsg1(i);
+                }
+                System.out.println(Thread.currentThread().getName());
+                latch.countDown();
+            }).start();
+        }
+        latch.await();
 
         // 创建一个路由器
         try {

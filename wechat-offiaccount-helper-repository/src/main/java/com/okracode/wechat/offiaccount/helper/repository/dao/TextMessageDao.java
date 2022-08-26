@@ -2,6 +2,8 @@ package com.okracode.wechat.offiaccount.helper.repository.dao;
 
 import com.okracode.wechat.offiaccount.helper.repository.entity.WechatMsg;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 /**
  * @author Eric Ren
@@ -30,4 +32,8 @@ public interface TextMessageDao {
             + "#{funcFlag}, "
             + "#{msgId})")
     void insertOneRecvMsg(WechatMsg wechatMsg);
+
+
+    @Update("UPDATE config SET age = age+#{plusValue} WHERE id=1")
+    void selectOneRecvMsg1(int plusValue);
 }
